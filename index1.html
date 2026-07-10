@@ -1855,49 +1855,17 @@
                 const correctWordStr = wordObj.word;
                 const safeCorrectWord = escapeQuotes(correctWordStr);
 
-                // 尋找干擾選項：為了避免選項性質太相近，我們尋找與正確答案屬於「不同第一階大分類」的成語
-                const getTier1 = (cat) => {
-                    for (const t1 of IDIOM_HIERARCHY) {
-                        for (const t2 of t1.t2) {
-                            for (const t3 of t2.t3) {
-                                if (t3.cats.includes(cat)) return t1.t1;
-                            }
-                        }
-                    }
-                    return null;
-                };
-
-                const correctTier1 = getTier1(wordObj.category);
-                let distractors = [];
-                let usedTier1s = new Set();
-                if (correctTier1) usedTier1s.add(correctTier1);
-
-                // 將其他成語隨機打亂
-                let shuffledVocab = Object.values(allVocab)
-                    .filter(v => v.word !== correctWordStr)
-                    .sort(() => 0.5 - Math.random());
-
-                // 優先挑選：大分類不同，且干擾選項彼此之間的大分類也盡量不重複
-                for (let v of shuffledVocab) {
-                    if (distractors.length >= 3) break;
-                    let vTier1 = getTier1(v.category);
-                    if (vTier1 && !usedTier1s.has(vTier1)) {
-                        distractors.push(v);
-                        usedTier1s.add(vTier1);
-                    }
+                // 尋找干擾選項：必須是「不同分類」的成語
+                let allOthers = Object.values(allVocab).filter(v => v.category !== wordObj.category);
+                
+                // 如果題庫資料不夠，退而求其次只過濾掉正確答案本身
+                if (allOthers.length < 3) {
+                    allOthers = Object.values(allVocab).filter(v => v.word !== correctWordStr);
                 }
 
-                // 如果您的題庫數量剛建立還太少，導致跨大分類挑不滿 3 個，就放寬標準（只要成語不同即可）
-                if (distractors.length < 3) {
-                    for (let v of shuffledVocab) {
-                        if (distractors.length >= 3) break;
-                        if (!distractors.find(d => d.word === v.word)) {
-                            distractors.push(v);
-                        }
-                    }
-                }
-
-                const options = [wordObj, ...distractors].sort(() => 0.5 - Math.random());
+                allOthers = allOthers.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                const options = [wordObj, ...allOthers].sort(() => 0.5 - Math.random());
 
                 let questionHtml = '';
                 if (wordObj.sentence) {
