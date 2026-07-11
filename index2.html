@@ -564,7 +564,7 @@
 
                     <!-- 註冊/編輯個人資料卡 Modal -->
                     <div id="profile-edit-modal" class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-[95vw] xl:max-w-[70vw] overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col" style="max-height: 95vh;">
                             <div class="bg-gradient-to-r from-pink-400 to-rose-400 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold" id="profile-modal-title">📝 設定專屬資料卡</h2>
                                 <button onclick="closeGlobalModal('profile-edit-modal')" id="profile-modal-close" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold">✕</button>
@@ -640,7 +640,7 @@
 
                     <!-- 智能複習營 Modal -->
                     <div id="ebbinghaus-camp-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('ebbinghaus-camp-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[90vw] overflow-hidden border-4 border-pink-400 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[80vw] overflow-hidden border-4 border-pink-400 transform scale-95 transition-transform duration-200 flex flex-col relative min-h-[85vh]">
                             <div class="bg-gradient-to-r from-pink-500 to-fuchsia-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">🧠 艾賓浩斯智能複習營</h2>
                                 <button onclick="closeGlobalModal('ebbinghaus-camp-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl transition-colors">✕</button>
@@ -728,7 +728,7 @@
 
                     <!-- 錯題集中營 Modal -->
                     <div id="weakness-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('weakness-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[90vw] overflow-hidden border-4 border-red-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[80vw] overflow-hidden border-4 border-red-300 transform scale-95 transition-transform duration-200 flex flex-col relative min-h-[90vh]">
                             <div class="bg-gradient-to-r from-red-500 to-rose-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <div class="flex items-center gap-4">
                                     <h2 class="text-xl font-bold flex items-center gap-2">🔥 錯題集中營</h2>
@@ -746,12 +746,12 @@
 
                     <!-- 成績總覽表 Modal -->
                     <div id="score-board-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[110] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('score-board-modal')">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-[95vw] xl:max-w-[90vw] overflow-hidden border-4 border-indigo-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-[95vw] xl:max-w-[80vw] overflow-hidden border-4 border-indigo-300 transform scale-95 transition-transform duration-200 flex flex-col min-h-[50vh]">
                             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">📊 全員學習進度總排名</h2>
                                 <button onclick="closeGlobalModal('score-board-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
-                            <div class="p-6 flex-1 overflow-auto custom-scrollbar bg-gray-50">
+                            <div class="p-6 flex-1 overflow-x-auto custom-scrollbar bg-gray-50">
                                 <table class="w-full text-center border-collapse bg-white shadow-sm rounded-xl overflow-hidden">
                                     <thead class="bg-indigo-100 text-indigo-800 border-b-2 border-indigo-200">
                                         <tr id="score-board-header">
@@ -768,7 +768,7 @@
 
                     <!-- 瀑布流總覽 Modal -->
                     <div id="waterfall-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('waterfall-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[90vw] overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] lg:max-w-6xl overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
                             <div class="bg-gradient-to-r from-pink-500 to-rose-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2" id="waterfall-title">👁️ 成語總覽</h2>
                                 <button onclick="closeGlobalModal('waterfall-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
@@ -781,7 +781,7 @@
 
                     <!-- 進度追蹤 Modal -->
                     <div id="progress-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('progress-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[90vw] overflow-hidden border-4 border-rose-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[70vw] overflow-hidden border-4 border-rose-300 transform scale-95 transition-transform duration-200 flex flex-col relative min-h-[85vh]">
                             <div class="bg-gradient-to-r from-rose-400 to-pink-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2" id="progress-user-name">📈 成語闖關進度</h2>
                                 <button onclick="closeGlobalModal('progress-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
@@ -942,7 +942,7 @@
                             <div class="mb-1 pr-8">
                                 <div class="text-xs text-indigo-400 font-bold mb-1">${w.pinyin || ''}</div>
                                 <div class="flex items-center gap-2 flex-wrap">
-                                    <h4 class="font-black text-2xl md:text-3xl text-[#FF0000] break-words">${w.word}</h4>
+                                    <h4 class="font-black text-xl text-gray-800 break-words">${w.word}</h4>
                                     <span class="text-[10px] px-1.5 py-0.5 rounded shadow-sm inline-block ${emotionColor}">${w.emotion || '無'}</span>
                                 </div>
                             </div>
