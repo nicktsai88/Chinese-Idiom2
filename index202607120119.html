@@ -5,26 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>🐉 櫻花粉・成語大師培訓營 ✨</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        sakura: {
-                            bg: '#FDFBFB',      // 極淺的暖白/米灰 (保護眼睛背景)
-                            light: '#F9F1F2',   // 極淡粉 (對話框、區塊底色)
-                            base: '#F4DDDF',    // 櫻花粉主色 (邊框、次要按鈕)
-                            primary: '#E58A9A', // 溫和的深粉紅 (主要互動元件)
-                            dark: '#C86B7D',    // 更深的粉紅 (Hover效果、強調)
-                            accent: '#A64D5F',  // 最深的絳紅粉 (標題、成語重點)
-                            text: '#4A4A4A',    // 中性深灰色 (提升閱讀清晰度)
-                            deep: '#5C3A41'     // 最深咖啡紅 (極重色字體)
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         html, body {
@@ -36,27 +16,27 @@
         }
         body {
             font-family: 'Varela Round', 'Noto Sans TC', sans-serif;
-            background-color: #FDFBFB; 
+            background-color: #fff0f5; 
             background-image: 
-                radial-gradient(#F9F1F2 2px, transparent 2px),
-                radial-gradient(#F4DDDF 1px, transparent 2px);
+                radial-gradient(#fbcfe8 2px, transparent 2px),
+                radial-gradient(#fce7f3 2px, transparent 2px);
             background-size: 40px 40px;
             background-position: 0 0, 20px 20px;
             -webkit-tap-highlight-color: transparent;
-            color: #4A4A4A; 
+            color: #4c1d95; 
         }
         
         .glass-panel {
-            background: rgba(253, 251, 251, 0.9);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
-            border: 3px solid #F4DDDF;
-            box-shadow: 0 8px 32px rgba(229, 138, 154, 0.15);
+            border: 3px solid #fbcfe8;
+            box-shadow: 0 8px 32px rgba(244, 114, 182, 0.2);
         }
 
         .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E58A9A; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #C86B7D; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244, 114, 182, 0.5); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(244, 114, 182, 0.8); }
 
         .animate-bounce-slow { animation: bounce 3s infinite; }
         @keyframes bounce { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(0); } }
@@ -89,8 +69,8 @@
             animation-play-state: paused;
         }
         
-        .chat-bubble-me { background: #F9F1F2; border-radius: 1rem 1rem 0 1rem; border: 1px solid #F4DDDF; color: #5C3A41; font-weight: 700; }
-        .chat-bubble-other { background: #ffffff; border-radius: 1rem 1rem 1rem 0; border: 1px solid #F4DDDF; color: #4A4A4A; font-weight: 700; }
+        .chat-bubble-me { background: #fdf2f8; border-radius: 1rem 1rem 0 1rem; border: 1px solid #fbcfe8; }
+        .chat-bubble-other { background: #ffffff; border-radius: 1rem 1rem 1rem 0; border: 1px solid #fce7f3; }
 
         /* Accordion Styles */
         .accordion-content {
@@ -99,7 +79,7 @@
             transition: max-height 0.3s ease-in-out;
         }
         .accordion-content.open {
-            max-height: 3000px; 
+            max-height: 2000px; /* 足夠大的數值讓它能展開 */
             transition: max-height 0.5s ease-in-out;
         }
     </style>
@@ -120,6 +100,9 @@
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, getDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // ==========================================
+        //  系統設定與常數
+        // ==========================================
         const BASE_FIREBASE_CONFIG = {
             authDomain: "chinese-learning-47f4d.firebaseapp.com",
             projectId: "chinese-learning-47f4d",
@@ -388,12 +371,11 @@
             }
         ];
 
-        // Soft pastel colors matching the new palette
         const USER_COLORS = [
-            'bg-[#E58A9A] text-white', 'bg-[#C86B7D] text-white', 'bg-[#A64D5F] text-white',
-            'bg-[#D89BA6] text-white', 'bg-[#B07D87] text-white', 'bg-[#C28C96] text-white',
-            'bg-[#E098A4] text-white', 'bg-[#9C5B68] text-white', 'bg-[#CF7E8E] text-white',
-            'bg-[#B56A79] text-white'
+            'bg-[#f472b6] text-white', 'bg-[#fb7185] text-white', 'bg-[#e879f9] text-white',
+            'bg-[#c084fc] text-white', 'bg-[#a78bfa] text-white', 'bg-[#818cf8] text-white',
+            'bg-[#38bdf8] text-white', 'bg-[#2dd4bf] text-white', 'bg-[#fbbf24] text-white',
+            'bg-[#f87171] text-white'
         ];
         
         const getUserColor = (name) => {
@@ -434,40 +416,6 @@
 
         let unsubUsers, unsubDates, unsubChat, unsubProfile, unsubVocab, unsubProgress, unsubActivity, unsubFav, unsubWeak;
         
-        let preferredVoice = null;
-        const initVoice = () => {
-            if (!('speechSynthesis' in window)) return;
-            const voices = speechSynthesis.getVoices();
-            if (!voices.length) return;
-            
-            // Priority list for high-quality Chinese voices (Windows & Mac & Chrome)
-            const targets = [
-                'Microsoft Yating',     // High quality TW female
-                'Microsoft HsiaoChen',  // Good TW female
-                'Google 國語（臺灣）',    // Chrome PC TW
-                'Google 國語',          // Chrome generic
-                'Google 普通话',        // Chrome CN fallback
-                'Microsoft Hanhan',     // Legacy TW fallback
-                'Mei-Jia',              // Mac TW
-                'Sin-Ji',               // Mac HK
-                'Ting-Ting'             // Mac CN
-            ];
-            
-            for (let t of targets) {
-                preferredVoice = voices.find(v => v.name.includes(t));
-                if (preferredVoice) break;
-            }
-            
-            // Ultimate fallbacks
-            if (!preferredVoice) preferredVoice = voices.find(v => v.lang === 'zh-TW');
-            if (!preferredVoice) preferredVoice = voices.find(v => v.lang.startsWith('zh'));
-        };
-
-        if ('speechSynthesis' in window) {
-            speechSynthesis.onvoiceschanged = initVoice;
-            initVoice(); // Try immediately
-        }
-
         // ==========================================
         //  輔助工具函式
         // ==========================================
@@ -514,20 +462,15 @@
             }
             if (!('speechSynthesis' in window)) return;
             speechSynthesis.cancel(); 
-            
-            // Re-init voice if it failed on load
-            if (!preferredVoice) initVoice();
-            
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'zh-TW'; 
-            if (preferredVoice) utterance.voice = preferredVoice;
-            utterance.rate = 0.85; // Slightly slower, clearer
+            utterance.rate = 0.9; 
             speechSynthesis.speak(utterance);
         };
 
         // 計算艾賓浩斯複習狀態
         const getEbbinghausStatus = (reviewCount, lastDateStr) => {
-            if (!lastDateStr || reviewCount === 0) return { needReview: true, text: '💡 首次複習', color: 'text-sakura-primary bg-sakura-light border-sakura-base' };
+            if (!lastDateStr || reviewCount === 0) return { needReview: true, text: '💡 首次複習', color: 'text-rose-500 bg-rose-50 border-rose-200' };
             
             const lastDate = new Date(lastDateStr);
             lastDate.setHours(0,0,0,0);
@@ -543,13 +486,13 @@
             else targetInterval = 15; 
 
             if (daysPassed >= targetInterval) {
-                return { needReview: true, text: '🔥 建議複習', color: 'text-red-500 bg-red-50 border-red-200' }; // Keep urgent alerts red
+                return { needReview: true, text: '🔥 建議複習', color: 'text-red-600 bg-red-50 border-red-300' };
             } else {
-                return { needReview: false, text: '✔️ 記憶穩固', color: 'text-green-600 bg-green-50 border-green-300' }; // Keep success green
+                return { needReview: false, text: '✔️ 記憶穩固', color: 'text-green-600 bg-green-50 border-green-300' };
             }
         };
 
-        // 取得成語主分類以作過濾 (防呆與干擾選項使用)
+        // 取得成語主分類以作過濾
         const getTier1OfCategory = (categoryName) => {
             for (let t1 of CATEGORY_HIERARCHY) {
                 for (let t2 of t1.children) {
@@ -569,7 +512,7 @@
         // ==========================================
         window.renderApp = () => { 
             try {
-                document.getElementById('app').innerHTML = `<div id="view-container" class="w-full h-full flex flex-col relative overflow-hidden bg-sakura-bg"></div>`; 
+                document.getElementById('app').innerHTML = `<div id="view-container" class="w-full h-full flex flex-col relative overflow-hidden bg-white/20"></div>`; 
                 renderGlobalModals();
             } catch(e) { console.error("renderApp error", e); }
         };
@@ -580,18 +523,18 @@
                 const currentConfig = getStoredConfig() || {};
                 container.innerHTML = `
                     <div class="flex-1 flex flex-col items-center justify-center p-6 relative z-10 overflow-y-auto">
-                        <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] shadow-2xl z-10 w-[36rem] max-w-[95vw] border-4 border-sakura-base relative overflow-hidden">
-                            <h1 class="text-2xl md:text-3xl font-black text-sakura-deep mb-2 drop-shadow-sm text-center">⚙️ 系統資料庫設定</h1>
-                            <p class="text-sm text-sakura-text mb-6 text-center font-bold">請填入您的 Firebase API Key 以啟用雲端同步功能</p>
-                            <div class="space-y-3 bg-sakura-light p-6 rounded-2xl border border-sakura-base">
+                        <div class="glass-panel p-8 md:p-10 rounded-[2.5rem] shadow-2xl z-10 w-[36rem] max-w-[95vw] border-4 border-pink-300 relative overflow-hidden">
+                            <h1 class="text-2xl md:text-3xl font-black text-pink-600 mb-2 drop-shadow-sm text-center">⚙️ 系統資料庫設定</h1>
+                            <p class="text-sm text-gray-500 mb-6 text-center font-bold">請填入您的 Firebase API Key 以啟用雲端同步功能</p>
+                            <div class="space-y-3 bg-white/60 p-6 rounded-2xl border border-pink-200">
                                 <div>
-                                    <label class="block text-xs font-bold text-sakura-deep mb-1">API Key (必填) *</label>
-                                    <input type="text" id="cfg-apiKey" value="${currentConfig.apiKey || ''}" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg border border-sakura-base focus:outline-none focus:border-sakura-primary text-sm font-mono">
+                                    <label class="block text-xs font-bold text-pink-800 mb-1">API Key (必填) *</label>
+                                    <input type="text" id="cfg-apiKey" value="${currentConfig.apiKey || ''}" placeholder="AIzaSy..." class="w-full px-3 py-2 rounded-lg border border-pink-200 focus:outline-none focus:border-pink-400 text-sm font-mono">
                                 </div>
                             </div>
                             <div class="mt-6 flex gap-3 justify-center">
-                                ${currentConfig.apiKey ? `<button onclick="renderLogin()" class="px-5 py-2.5 rounded-xl font-bold text-sakura-text bg-white border border-sakura-base hover:bg-sakura-light transition-colors">取消</button>` : ''}
-                                <button onclick="saveFirebaseConfig()" class="flex-1 bg-gradient-to-r from-sakura-primary to-sakura-dark text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all">
+                                ${currentConfig.apiKey ? `<button onclick="renderLogin()" class="px-5 py-2.5 rounded-xl font-bold text-gray-500 bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors">取消</button>` : ''}
+                                <button onclick="saveFirebaseConfig()" class="flex-1 bg-gradient-to-r from-pink-400 to-rose-400 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:shadow-lg transition-all">
                                     💾 儲存並啟動系統
                                 </button>
                             </div>
@@ -606,34 +549,34 @@
                 const container = document.getElementById('view-container');
                 container.innerHTML = `
                     <div class="flex-1 flex flex-col items-center justify-center p-6 relative z-10 overflow-y-auto">
-                        <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-2xl z-10 w-[36rem] max-w-[95vw] text-center border-4 border-sakura-base relative overflow-hidden">
-                            <div class="absolute top-4 left-4 text-4xl animate-bounce-slow opacity-80">🌸</div>
-                            <div class="absolute bottom-4 right-4 text-4xl animate-bounce-slow opacity-80" style="animation-delay: 1s;">📖</div>
-                            <button onclick="renderSetup()" class="absolute top-5 right-5 text-sakura-primary hover:text-sakura-dark transition-colors bg-white/50 p-2 rounded-full border border-sakura-base hover:bg-white" title="系統設定">
+                        <div class="glass-panel p-8 md:p-12 rounded-[2.5rem] shadow-2xl z-10 w-[36rem] max-w-[95vw] text-center border-4 border-pink-300 relative overflow-hidden">
+                            <div class="absolute top-4 left-4 text-4xl animate-bounce-slow">🌸</div>
+                            <div class="absolute bottom-4 right-4 text-4xl animate-bounce-slow" style="animation-delay: 1s;">📖</div>
+                            <button onclick="renderSetup()" class="absolute top-5 right-5 text-pink-300 hover:text-pink-600 transition-colors bg-white/50 p-2 rounded-full border border-pink-200 hover:bg-white" title="系統設定">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                             </button>
 
-                            <h1 class="text-3xl md:text-4xl font-black text-sakura-accent mb-3 drop-shadow-sm tracking-wide">🐉 櫻花粉・成語大師培訓營</h1>
-                            <h2 class="text-xl font-bold text-sakura-dark mb-8 bg-sakura-light inline-block px-6 py-2 rounded-full border border-sakura-base shadow-sm">四大階層 157 類成語攻克 💯</h2>
+                            <h1 class="text-3xl md:text-4xl font-black text-pink-600 mb-3 drop-shadow-sm tracking-wide">🐉 櫻花粉・成語大師培訓營</h1>
+                            <h2 class="text-xl font-bold text-rose-500 mb-8 bg-rose-50 inline-block px-6 py-2 rounded-full border border-rose-200 shadow-sm">四大階層 157 類成語攻克 💯</h2>
                             
-                            <div class="bg-white/60 p-6 rounded-3xl border border-sakura-base mb-6 shadow-inner">
-                                <p class="text-sm text-sakura-dark font-bold mb-3">👇 點擊你的暱稱登入 👇</p>
+                            <div class="bg-white/60 p-6 rounded-3xl border border-pink-200 mb-6 shadow-inner">
+                                <p class="text-sm text-pink-600 font-bold mb-3">👇 點擊你的暱稱登入 👇</p>
                                 <div class="flex flex-wrap justify-center gap-3">
                                     ${globalUsers.length > 0 ? 
                                         globalUsers.map(u => {
                                             const dispName = usersProfile[u]?.nickname || u;
-                                            return `<button onclick="initiateLogin('${u}')" class="flex items-center gap-2 text-md font-bold bg-white border-2 border-sakura-base text-sakura-deep hover:bg-sakura-light hover:border-sakura-primary hover:scale-105 py-1.5 pl-2 pr-4 rounded-xl shadow-sm transition-all">
+                                            return `<button onclick="initiateLogin('${u}')" class="flex items-center gap-2 text-md font-bold bg-white border-2 border-pink-200 text-pink-700 hover:bg-pink-50 hover:scale-105 py-1.5 pl-2 pr-4 rounded-xl shadow-sm transition-all">
                                                 <div class="${getUserColor(u)} w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow-sm border-2 border-white shrink-0">${getAvatarChar(u)}</div>
                                                 <span>${dispName}</span>
                                             </button>`;
                                         }).join('') 
-                                        : `<span class="text-sm text-sakura-text opacity-70">尚無學習者，請點擊下方註冊</span>`
+                                        : `<span class="text-sm text-gray-400">尚無學習者，請點擊下方註冊</span>`
                                     }
                                 </div>
                             </div>
                             
                             <div class="flex gap-2 w-full mt-2">
-                                <button onclick="openProfileEditModal('', true)" class="w-full bg-gradient-to-r from-sakura-primary to-sakura-dark text-white font-black py-4 px-6 text-xl rounded-2xl shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02]">
+                                <button onclick="openProfileEditModal('', true)" class="w-full bg-gradient-to-r from-pink-400 to-rose-400 text-white font-black py-4 px-6 text-xl rounded-2xl shadow-md hover:shadow-lg transition-all transform hover:scale-[1.02]">
                                     🚀 註冊新帳號
                                 </button>
                             </div>
@@ -647,18 +590,18 @@
             try {
                 const container = document.getElementById('view-container');
                 container.innerHTML = `
-                    <div class="bg-white/90 backdrop-blur-md border-b-2 border-sakura-base p-3 flex justify-between items-center shadow-sm shrink-0 z-20 relative">
+                    <div class="bg-white/80 backdrop-blur-md border-b-2 border-pink-200 p-3 flex justify-between items-center shadow-sm shrink-0 z-20 relative">
                         <div class="flex items-center gap-4 pl-2">
-                            <h1 class="text-2xl md:text-3xl font-black text-sakura-accent tracking-wider">🐉 成語大師培訓營</h1>
+                            <h1 class="text-2xl md:text-3xl font-black text-pink-600 tracking-wider">🐉 成語大師培訓營</h1>
                         </div>
                         <div class="flex items-center gap-2 md:gap-3 pr-2 flex-wrap justify-end">
                             ${isAdmin ? `<button onclick="window.open('migration_tool.html', '_blank')" class="bg-gradient-to-r from-amber-400 to-orange-400 text-white font-bold px-3 py-1.5 rounded-lg shadow-sm hover:scale-105 transition-transform text-sm shrink-0 hidden lg:block">⚙️ 題庫管理</button>` : ''}
                             
-                            <button onclick="openEbbinghausCamp()" class="font-bold text-sakura-deep bg-sakura-light px-2 md:px-3 py-1.5 rounded-lg border border-sakura-base shadow-sm hover:bg-sakura-base transition-colors text-sm flex items-center gap-1 shrink-0">
+                            <button onclick="openEbbinghausCamp()" class="font-bold text-pink-700 bg-pink-100 px-2 md:px-3 py-1.5 rounded-lg border border-pink-300 shadow-sm hover:bg-pink-200 transition-colors text-sm flex items-center gap-1 shrink-0">
                                 🧠 <span class="hidden md:inline">智能複習</span>
                             </button>
 
-                            <button onclick="openScoreBoard()" class="font-bold text-sakura-deep bg-white px-2 md:px-3 py-1.5 rounded-lg border border-sakura-base shadow-sm hover:bg-sakura-light transition-colors text-sm flex items-center gap-1 shrink-0">
+                            <button onclick="openScoreBoard()" class="font-bold text-indigo-600 bg-indigo-50 px-2 md:px-3 py-1.5 rounded-lg border border-indigo-200 shadow-sm hover:bg-indigo-100 transition-colors text-sm flex items-center gap-1 shrink-0">
                                 📊 <span class="hidden md:inline">全員進度</span>
                             </button>
 
@@ -666,52 +609,52 @@
                                 🔥 <span class="hidden md:inline">錯題集中營</span>
                             </button>
 
-                            <button onclick="openProgressModal()" class="font-bold text-sakura-dark bg-sakura-light px-2 md:px-3 py-1.5 rounded-lg border border-sakura-base shadow-sm hover:bg-sakura-base transition-colors text-sm flex items-center gap-1 shrink-0">
+                            <button onclick="openProgressModal()" class="font-bold text-rose-600 bg-rose-50 px-2 md:px-3 py-1.5 rounded-lg border border-rose-200 shadow-sm hover:bg-rose-100 transition-colors text-sm flex items-center gap-1 shrink-0">
                                 📈 <span class="hidden md:inline">進度追蹤</span>
                             </button>
                             
-                            <button onclick="openProfileEditModal('${username}')" class="font-bold text-sakura-primary bg-white px-2 md:px-3 py-1.5 rounded-lg border border-sakura-base shadow-sm hover:bg-sakura-light transition-colors text-sm flex items-center gap-1 shrink-0">
+                            <button onclick="openProfileEditModal('${username}')" class="font-bold text-pink-600 bg-pink-50 px-2 md:px-3 py-1.5 rounded-lg border border-pink-200 shadow-sm hover:bg-pink-100 transition-colors text-sm flex items-center gap-1 shrink-0">
                                 <div class="${getUserColor(username)} w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-sm">${getAvatarChar(username)}</div>
                                 <span class="hidden md:inline">我的資料卡</span>
                             </button>
                             
-                            <button onclick="logout()" class="text-sakura-text hover:bg-sakura-light font-bold px-2 md:px-3 py-1.5 rounded-lg transition-colors text-sm border border-sakura-base bg-white shadow-sm shrink-0">登出 👋</button>
+                            <button onclick="logout()" class="text-gray-500 hover:bg-gray-100 font-bold px-2 md:px-3 py-1.5 rounded-lg transition-colors text-sm border border-gray-200 bg-white shadow-sm shrink-0">登出 👋</button>
                         </div>
                     </div>
 
                     <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
-                        <div class="w-full md:w-60 lg:w-72 flex flex-col bg-white/70 border-b-2 md:border-b-0 md:border-r-2 border-sakura-base z-10 shrink-0 h-full min-h-0">
-                            <div id="sidebar-countdowns" class="p-4 flex flex-col border-b-2 border-sakura-base shrink-0 h-[45%] min-h-[250px] relative overflow-hidden"></div>
-                            <div class="flex-1 flex flex-col bg-white/80 overflow-hidden relative min-h-0">
-                                <div class="bg-sakura-light p-2 text-center font-bold text-sakura-dark border-b border-sakura-base text-sm shadow-sm shrink-0">💬 加油打氣留言板</div>
+                        <div class="w-full md:w-60 lg:w-72 flex flex-col bg-white/50 border-b-2 md:border-b-0 md:border-r-2 border-pink-100 z-10 shrink-0 h-full min-h-0">
+                            <div id="sidebar-countdowns" class="p-4 flex flex-col border-b-2 border-pink-100 shrink-0 h-[45%] min-h-[250px] relative overflow-hidden"></div>
+                            <div class="flex-1 flex flex-col bg-white/60 overflow-hidden relative min-h-0">
+                                <div class="bg-pink-100/50 p-2 text-center font-bold text-pink-600 border-b border-pink-100 text-sm shadow-sm shrink-0">💬 加油打氣留言板</div>
                                 <div id="chat-messages" class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar text-sm relative min-h-0"></div>
                                 
-                                <div class="p-2 bg-white flex flex-col border-t border-sakura-base relative shrink-0">
-                                    <div id="emoji-picker" class="hidden absolute bottom-full left-2 mb-2 bg-white border border-sakura-base p-2 rounded-xl shadow-lg grid grid-cols-5 gap-2 z-50">
+                                <div class="p-2 bg-white flex flex-col border-t border-pink-100 relative shrink-0">
+                                    <div id="emoji-picker" class="hidden absolute bottom-full left-2 mb-2 bg-white border border-pink-200 p-2 rounded-xl shadow-lg grid grid-cols-5 gap-2 z-50">
                                         ${['😀','😂','🥰','😎','🥺','💪','🔥','💯','📚','🎓','🌸','🎉','📝','🏆','💖'].map(e => `<button onclick="insertEmoji('${e}')" class="text-xl hover:scale-125 transition-transform">${e}</button>`).join('')}
                                     </div>
                                     <div class="flex gap-1.5 items-center w-full">
-                                        <button id="emoji-toggle-btn" onclick="toggleEmojiPicker(event)" class="text-2xl hover:bg-sakura-light px-1 rounded-lg transition-colors shrink-0">😀</button>
+                                        <button id="emoji-toggle-btn" onclick="toggleEmojiPicker(event)" class="text-2xl hover:bg-pink-50 px-1 rounded-lg transition-colors shrink-0">😀</button>
                                         <div class="flex-1 min-w-0">
-                                            <input type="text" id="chatInput" placeholder="說點什麼..." class="w-full px-3 py-2 rounded-lg border border-sakura-base focus:outline-none focus:border-sakura-primary bg-sakura-bg text-sm" onkeypress="if(event.key === 'Enter') sendChat()">
+                                            <input type="text" id="chatInput" placeholder="說點什麼..." class="w-full px-3 py-2 rounded-lg border border-pink-200 focus:outline-none focus:border-pink-400 bg-pink-50 text-sm" onkeypress="if(event.key === 'Enter') sendChat()">
                                         </div>
-                                        <button onclick="sendChat()" class="bg-sakura-primary text-white px-3 py-2 rounded-lg font-bold hover:bg-sakura-dark transition-colors shrink-0 whitespace-nowrap text-sm">送出</button>
+                                        <button onclick="sendChat()" class="bg-pink-400 text-white px-3 py-2 rounded-lg font-bold hover:bg-pink-500 transition-colors shrink-0 whitespace-nowrap text-sm">送出</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex-1 bg-transparent p-4 flex flex-col relative z-0 min-w-0">
-                            <div class="flex justify-between items-center mb-4 bg-white/90 p-3 rounded-2xl border border-sakura-base shadow-sm shrink-0">
-                                <button onclick="changeMonth(-1)" class="px-3 py-1.5 md:px-4 md:py-2 bg-sakura-light border border-sakura-base hover:bg-sakura-base text-sakura-deep rounded-xl font-bold transition-colors shadow-sm text-sm md:text-base whitespace-nowrap">◀ 上個月</button>
+                        <div class="flex-1 bg-white/30 p-4 flex flex-col relative z-0 min-w-0">
+                            <div class="flex justify-between items-center mb-4 bg-white/80 p-3 rounded-2xl border border-pink-100 shadow-sm shrink-0">
+                                <button onclick="changeMonth(-1)" class="px-3 py-1.5 md:px-4 md:py-2 bg-pink-50 border border-pink-200 hover:bg-pink-100 text-pink-600 rounded-xl font-bold transition-colors shadow-sm text-sm md:text-base whitespace-nowrap">◀ 上個月</button>
                                 <div class="flex flex-col items-center flex-1 mx-2 overflow-hidden" id="calendar-header-container"></div>
-                                <button onclick="changeMonth(1)" class="px-3 py-1.5 md:px-4 md:py-2 bg-sakura-light border border-sakura-base hover:bg-sakura-base text-sakura-deep rounded-xl font-bold transition-colors shadow-sm text-sm md:text-base whitespace-nowrap">下個月 ▶</button>
+                                <button onclick="changeMonth(1)" class="px-3 py-1.5 md:px-4 md:py-2 bg-pink-50 border border-pink-200 hover:bg-pink-100 text-pink-600 rounded-xl font-bold transition-colors shadow-sm text-sm md:text-base whitespace-nowrap">下個月 ▶</button>
                             </div>
                             <div id="calendar-grid" class="flex-1 flex flex-col min-h-0"></div>
                         </div>
 
-                        <div class="w-full md:w-60 lg:w-72 flex flex-col bg-white/80 z-10 shrink-0 border-l-2 border-sakura-base min-h-0 h-full shadow-[-4px_0_15px_rgba(244,221,223,0.3)]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark p-2 text-center font-bold text-white shadow-sm shrink-0 text-sm flex justify-center items-center gap-1">❤️ 我的最愛</div>
+                        <div class="w-full md:w-60 lg:w-72 flex flex-col bg-white/60 z-10 shrink-0 border-l-2 border-pink-200 min-h-0 h-full shadow-[-4px_0_15px_rgba(244,114,182,0.05)]">
+                            <div class="bg-gradient-to-r from-pink-200 to-rose-200 p-2 text-center font-bold text-rose-700 shadow-sm shrink-0 text-sm flex justify-center items-center gap-1">❤️ 我的最愛</div>
                             <div id="favorites-feed" class="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar"></div>
                         </div>
                     </div>
@@ -724,164 +667,165 @@
             } catch(e) { console.error("renderMain error", e); }
         };
 
+        // 全域 Modals 渲染
         const renderGlobalModals = () => {
             try {
                 const container = document.getElementById('modals-container');
                 container.innerHTML = `
                     <!-- 輸入密碼登入 Modal -->
-                    <div id="login-pwd-modal" class="fixed inset-0 bg-sakura-text/60 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col p-6">
-                            <h2 class="text-2xl font-black text-sakura-accent mb-4 text-center">🔐 安全登入</h2>
-                            <p class="text-center font-bold text-sakura-text mb-4" id="login-pwd-username-display"></p>
+                    <div id="login-pwd-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col p-6">
+                            <h2 class="text-2xl font-black text-pink-600 mb-4 text-center">🔐 安全登入</h2>
+                            <p class="text-center font-bold text-gray-600 mb-4" id="login-pwd-username-display"></p>
                             <input type="hidden" id="login-pwd-username">
-                            <input type="password" id="login-pwd-input" placeholder="請輸入密碼" class="w-full px-4 py-3 rounded-xl border-2 border-sakura-base focus:outline-none focus:border-sakura-primary text-center font-bold text-lg mb-6" onkeypress="if(event.key === 'Enter') confirmLoginPassword()">
+                            <input type="password" id="login-pwd-input" placeholder="請輸入密碼" class="w-full px-4 py-3 rounded-xl border-2 border-pink-200 focus:outline-none focus:border-pink-400 text-center font-bold text-lg mb-6" onkeypress="if(event.key === 'Enter') confirmLoginPassword()">
                             <div class="flex gap-3">
-                                <button onclick="closeGlobalModal('login-pwd-modal')" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-sakura-text bg-sakura-bg border border-sakura-base hover:bg-sakura-light">取消</button>
-                                <button onclick="confirmLoginPassword()" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-white bg-sakura-primary hover:bg-sakura-dark shadow-md">登入</button>
+                                <button onclick="closeGlobalModal('login-pwd-modal')" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-gray-500 bg-gray-50 border border-gray-200 hover:bg-gray-100">取消</button>
+                                <button onclick="confirmLoginPassword()" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-white bg-pink-500 hover:bg-pink-600 shadow-md">登入</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- 註冊/編輯個人資料卡 Modal -->
-                    <div id="profile-edit-modal" class="fixed inset-0 bg-sakura-text/70 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg xl:max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col" style="max-height: 90vh;">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark p-4 flex justify-between items-center text-white shrink-0">
+                    <div id="profile-edit-modal" class="fixed inset-0 bg-gray-900/70 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col" style="max-height: 95vh;">
+                            <div class="bg-gradient-to-r from-pink-400 to-rose-400 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold" id="profile-modal-title">📝 設定專屬資料卡</h2>
                                 <button onclick="closeGlobalModal('profile-edit-modal')" id="profile-modal-close" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold">✕</button>
                             </div>
-                            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar space-y-4 bg-sakura-bg">
+                            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar space-y-4 bg-pink-50/30">
                                 <div>
-                                    <label class="block text-sakura-deep font-bold mb-1 text-sm">真實姓名 (登入帳號) <span class="text-red-500">*</span></label>
-                                    <input type="text" id="prof-name" placeholder="請輸入真實姓名" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary font-bold text-sakura-text">
+                                    <label class="block text-pink-800 font-bold mb-1 text-sm">真實姓名 (登入帳號) <span class="text-red-500">*</span></label>
+                                    <input type="text" id="prof-name" placeholder="請輸入真實姓名" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400 font-bold text-gray-700">
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sakura-deep font-bold mb-1 text-sm">設定密碼 (必填) <span class="text-xs font-normal text-red-400" id="pwd-hint"></span> <span class="text-red-500">*</span></label>
-                                        <input type="password" id="prof-pwd" placeholder="請設定登入密碼" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                        <label class="block text-pink-800 font-bold mb-1 text-sm">設定密碼 (必填) <span class="text-xs font-normal text-red-400" id="pwd-hint"></span> <span class="text-red-500">*</span></label>
+                                        <input type="password" id="prof-pwd" placeholder="請設定登入密碼" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                     </div>
                                     <div>
-                                        <label class="block text-sakura-deep font-bold mb-1 text-sm">確認密碼 (必填) <span class="text-red-500">*</span></label>
-                                        <input type="password" id="prof-pwd-confirm" placeholder="請再次輸入密碼" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                        <label class="block text-pink-800 font-bold mb-1 text-sm">確認密碼 (必填) <span class="text-red-500">*</span></label>
+                                        <input type="password" id="prof-pwd-confirm" placeholder="請再次輸入密碼" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-sakura-deep font-bold mb-1 text-sm">顯示暱稱 (必填) <span class="text-red-500">*</span></label>
-                                        <input type="text" id="prof-nickname" placeholder="例如: 小明" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                        <label class="block text-pink-800 font-bold mb-1 text-sm">顯示暱稱 (必填) <span class="text-red-500">*</span></label>
+                                        <input type="text" id="prof-nickname" placeholder="例如: 小明" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                     </div>
                                     <div>
-                                        <label class="block text-sakura-deep font-bold mb-1 text-sm">生日 (選填)</label>
-                                        <input type="date" id="prof-birthday" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                        <label class="block text-pink-800 font-bold mb-1 text-sm">生日 (選填)</label>
+                                        <input type="date" id="prof-birthday" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-sakura-deep font-bold mb-1 text-sm">第一志願 / 目標 (選填)</label>
-                                    <input type="text" id="prof-target" placeholder="例如: 考上第一志願..." class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                    <label class="block text-pink-800 font-bold mb-1 text-sm">第一志願 / 目標 (選填)</label>
+                                    <input type="text" id="prof-target" placeholder="例如: 考上第一志願..." class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                 </div>
                                 <div>
-                                    <label class="block text-sakura-deep font-bold mb-1 text-sm">座右銘 (選填)</label>
-                                    <input type="text" id="prof-motto" placeholder="一句鼓勵自己的話！" class="w-full px-3 py-2 rounded-lg border-2 border-sakura-base bg-white focus:outline-none focus:border-sakura-primary">
+                                    <label class="block text-pink-800 font-bold mb-1 text-sm">座右銘 (選填)</label>
+                                    <input type="text" id="prof-motto" placeholder="一句鼓勵自己的話！" class="w-full px-3 py-2 rounded-lg border-2 border-pink-200 bg-white focus:outline-none focus:border-pink-400">
                                 </div>
                                 <div>
-                                    <label class="block text-sakura-deep font-bold mb-1 text-sm">大頭貼照片 (選填)</label>
-                                    <div class="border-2 border-dashed border-sakura-primary rounded-xl p-3 text-center bg-white hover:bg-sakura-light transition-colors cursor-pointer" onclick="document.getElementById('prof-photo-upload').click()">
+                                    <label class="block text-pink-800 font-bold mb-1 text-sm">大頭貼照片 (選填)</label>
+                                    <div class="border-2 border-dashed border-pink-300 rounded-xl p-3 text-center bg-white hover:bg-pink-50 transition-colors cursor-pointer" onclick="document.getElementById('prof-photo-upload').click()">
                                         <input type="file" id="prof-photo-upload" accept="image/*" class="hidden" onchange="handleProfilePhoto(event)">
-                                        <img id="prof-photo-preview" class="h-20 w-20 object-cover rounded-full mx-auto hidden shadow-sm border-2 border-sakura-base mb-2">
-                                        <div id="prof-photo-placeholder" class="text-sakura-primary text-sm font-bold">點擊上傳大頭貼 📷</div>
+                                        <img id="prof-photo-preview" class="h-20 w-20 object-cover rounded-full mx-auto hidden shadow-sm border-2 border-pink-200 mb-2">
+                                        <div id="prof-photo-placeholder" class="text-pink-500 text-sm font-bold">點擊上傳大頭貼 📷</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-4 bg-white border-t border-sakura-base flex justify-end shrink-0">
-                                <button onclick="saveProfile()" class="px-6 py-2.5 rounded-xl font-bold text-white bg-sakura-primary hover:bg-sakura-dark shadow-md w-full md:w-auto">儲存並進入 🚀</button>
+                            <div class="p-4 bg-white border-t border-pink-100 flex justify-end shrink-0">
+                                <button onclick="saveProfile()" class="px-6 py-2.5 rounded-xl font-bold text-white bg-pink-500 hover:bg-pink-600 shadow-md w-full md:w-auto">儲存並進入 🚀</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- 選擇情境分類 Modal -->
-                    <div id="level-select-modal" class="fixed inset-0 bg-sakura-text/70 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('level-select-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[70vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col h-[90vh] relative">
+                    <div id="level-select-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('level-select-modal')">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-[95vw] xl:max-w-[70vw] overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh] relative">
                             <div class="absolute top-4 left-4 text-3xl opacity-20 pointer-events-none">🌸</div>
                             <div class="absolute top-4 right-4 text-3xl opacity-20 pointer-events-none">✨</div>
                             
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark p-4 flex justify-between items-center text-white shrink-0 shadow-sm z-10 relative">
+                            <div class="bg-gradient-to-r from-pink-400 to-rose-400 p-4 flex justify-between items-center text-white shrink-0 shadow-sm z-10 relative">
                                 <div>
                                     <h2 class="text-xl md:text-2xl font-black flex items-center gap-2">請選擇成語情境</h2>
-                                    <p class="font-bold text-sakura-light text-xs md:text-sm mt-1">系統將自動接續您的學習進度！<span id="level-modal-date" class="bg-white/20 px-2 py-0.5 rounded ml-2 shadow-inner"></span></p>
+                                    <p class="font-bold text-pink-100 text-xs md:text-sm mt-1">系統將自動接續您的學習進度！<span id="level-modal-date" class="bg-white/20 px-2 py-0.5 rounded ml-2 shadow-inner"></span></p>
                                 </div>
                                 <button onclick="closeGlobalModal('level-select-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
                             
-                            <div class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 bg-sakura-bg" id="level-buttons-container">
+                            <div class="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 bg-pink-50/50" id="level-buttons-container">
                                 <!-- JS 動態填入樹狀結構 -->
                             </div>
                             
-                            <div id="level-actions-container" class="p-4 bg-white border-t border-sakura-base shrink-0 hidden">
+                            <div id="level-actions-container" class="p-4 bg-white border-t border-pink-100 shrink-0 hidden">
                                 <!-- JS 動態填入測驗按鈕 -->
                             </div>
                         </div>
                     </div>
 
                     <!-- 智能複習營 Modal -->
-                    <div id="ebbinghaus-camp-modal" class="fixed inset-0 bg-sakura-text/70 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('ebbinghaus-camp-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-accent p-4 flex justify-between items-center text-white shrink-0">
+                    <div id="ebbinghaus-camp-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('ebbinghaus-camp-modal')">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-pink-400 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                            <div class="bg-gradient-to-r from-pink-500 to-fuchsia-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">🧠 艾賓浩斯智能複習營</h2>
                                 <button onclick="closeGlobalModal('ebbinghaus-camp-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl transition-colors">✕</button>
                             </div>
-                            <div class="p-4 md:p-6 bg-sakura-bg overflow-y-auto flex-1 custom-scrollbar" id="ebbinghaus-camp-content">
+                            <div class="p-4 md:p-6 bg-pink-50/50 overflow-y-auto flex-1 custom-scrollbar" id="ebbinghaus-camp-content">
                                 <!-- JS 動態注入關卡 -->
                             </div>
                         </div>
                     </div>
 
                     <!-- 智能複習 單字一覽 Modal -->
-                    <div id="ebbinghaus-study-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[90] p-4 transition-opacity duration-200 opacity-0">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-sakura-dark transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-dark to-sakura-accent p-4 flex justify-between items-center text-white shrink-0">
+                    <div id="ebbinghaus-study-modal" class="fixed inset-0 bg-gray-900/90 backdrop-blur-sm hidden items-center justify-center z-[90] p-4 transition-opacity duration-200 opacity-0">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-fuchsia-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
+                            <div class="bg-gradient-to-r from-fuchsia-400 to-pink-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">🧠 複習關卡 <span id="ebbinghaus-study-badge" class="bg-white/30 px-2 py-0.5 rounded text-sm shadow-sm ml-2"></span></h2>
                                 <button onclick="closeGlobalModal('ebbinghaus-study-modal')" class="hover:bg-white/30 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl transition-colors">✕</button>
                             </div>
-                            <div class="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar bg-sakura-bg" id="ebbinghaus-study-content">
+                            <div class="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar bg-fuchsia-50/50" id="ebbinghaus-study-content">
                                 <!-- 20 個單字列表 -->
                             </div>
-                            <div class="p-4 bg-white border-t border-sakura-base flex justify-center shrink-0">
-                                <button id="ebbinghaus-complete-btn" class="w-full md:w-auto px-10 py-3.5 rounded-xl font-black text-white bg-gradient-to-r from-sakura-primary to-sakura-dark hover:from-sakura-dark hover:to-sakura-accent shadow-md transition-all transform hover:scale-[1.02] text-lg">✅ 完成本次複習，記錄進度</button>
+                            <div class="p-4 bg-white border-t border-fuchsia-100 flex justify-center shrink-0">
+                                <button id="ebbinghaus-complete-btn" class="w-full md:w-auto px-10 py-3.5 rounded-xl font-black text-white bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 shadow-md transition-all transform hover:scale-[1.02] text-lg">✅ 完成本次複習，記錄進度</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 成語學習 列表 Modal (加寬至 95vw, 加大字距) -->
-                    <div id="learning-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full w-[95vw] max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark p-4 flex justify-between items-center text-white shrink-0">
+                    <!-- 單字學習 列表 Modal (加寬, 一次 10 題) -->
+                    <div id="learning-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full w-[95vw] max-w-[95vw] overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
+                            <div class="bg-gradient-to-r from-pink-400 to-rose-400 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">📖 成語特訓 <span id="learning-modal-title-badge" class="bg-white/30 px-2 py-0.5 rounded text-sm shadow-sm"></span></h2>
                                 <button onclick="closeGlobalModal('learning-modal')" class="hover:bg-white/30 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl transition-colors">✕</button>
                             </div>
-                            <div class="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar bg-sakura-bg" id="learning-content">
+                            <div class="p-4 md:p-6 overflow-y-auto flex-1 custom-scrollbar bg-pink-50/30" id="learning-content">
                                 <!-- 單字列表動態注入 -->
                             </div>
-                            <div class="p-4 bg-white border-t border-sakura-base flex justify-between items-center shrink-0">
-                                <button onclick="prevPage()" id="btn-prev-page" class="px-5 py-2.5 rounded-xl font-bold text-sakura-dark bg-sakura-light hover:bg-sakura-base border border-sakura-base transition-all invisible">◀ 上一頁</button>
-                                <span id="learning-page-indicator" class="font-bold text-sakura-text opacity-70 text-sm bg-sakura-light px-3 py-1 rounded-full"></span>
-                                <button onclick="nextPage()" id="btn-next-page" class="px-6 py-2.5 rounded-xl font-black text-white bg-sakura-primary hover:bg-sakura-dark shadow-md transition-all">下一頁 ▶</button>
+                            <div class="p-4 bg-white border-t border-pink-100 flex justify-between items-center shrink-0">
+                                <button onclick="prevPage()" id="btn-prev-page" class="px-5 py-2.5 rounded-xl font-bold text-pink-600 bg-pink-50 hover:bg-pink-100 border border-pink-200 transition-all invisible">◀ 上一頁</button>
+                                <span id="learning-page-indicator" class="font-bold text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full"></span>
+                                <button onclick="nextPage()" id="btn-next-page" class="px-6 py-2.5 rounded-xl font-black text-white bg-pink-500 hover:bg-pink-600 shadow-md transition-all">下一頁 ▶</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- 測驗模式 Quiz Modal -->
-                    <div id="quiz-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[90] p-4 transition-opacity duration-200 opacity-0" style="perspective: 1000px;">
-                        <div class="bg-white rounded-3xl shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-accent p-4 flex justify-between items-center text-white shrink-0">
+                    <div id="quiz-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[90] p-4 transition-opacity duration-200 opacity-0" style="perspective: 1000px;">
+                        <div class="bg-white rounded-3xl shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-rose-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
+                            <div class="bg-gradient-to-r from-rose-400 to-pink-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">📝 實戰測驗 <span id="quiz-progress-badge" class="bg-white/30 px-2 py-0.5 rounded text-sm shadow-sm"></span></h2>
                                 <button onclick="closeGlobalModal('quiz-modal')" class="hover:bg-white/30 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl transition-colors">✕</button>
                             </div>
                             
                             <!-- Progress Bar -->
-                            <div class="w-full bg-sakura-bg h-2">
-                                <div id="quiz-progress-bar" class="bg-sakura-primary h-2 transition-all duration-300" style="width: 0%"></div>
+                            <div class="w-full bg-gray-100 h-2">
+                                <div id="quiz-progress-bar" class="bg-rose-400 h-2 transition-all duration-300" style="width: 0%"></div>
                             </div>
 
-                            <div class="p-6 md:p-10 flex-1 flex flex-col items-center justify-center bg-sakura-bg relative overflow-y-auto custom-scrollbar">
+                            <div class="p-6 md:p-10 flex-1 flex flex-col items-center justify-center bg-rose-50/20 relative overflow-y-auto custom-scrollbar">
                                 <div id="quiz-question-container" class="text-center w-full max-w-4xl mx-auto flex flex-col justify-center flex-1">
                                     <!-- JS 動態注入題目與選項 -->
                                 </div>
@@ -890,19 +834,19 @@
                     </div>
 
                     <!-- 測驗結果 Modal -->
-                    <div id="quiz-result-modal" class="fixed inset-0 bg-sakura-text/90 backdrop-blur-md hidden items-center justify-center z-[100] p-4 transition-opacity duration-200 opacity-0">
+                    <div id="quiz-result-modal" class="fixed inset-0 bg-gray-900/90 backdrop-blur-md hidden items-center justify-center z-[100] p-4 transition-opacity duration-200 opacity-0">
                         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border-4 border-yellow-300 transform scale-95 transition-transform duration-200 flex flex-col p-8 text-center relative bg-gradient-to-b from-yellow-50 to-white">
                             <div id="quiz-result-icon" class="text-7xl mb-2 drop-shadow-md animate-bounce">🏆</div>
                             <h2 class="text-3xl font-black text-yellow-600 mb-1" id="quiz-result-grade">S 級</h2>
-                            <h3 class="text-xl font-bold text-sakura-deep mb-6" id="quiz-result-score">答對 20 / 20 題</h3>
+                            <h3 class="text-xl font-bold text-gray-800 mb-6" id="quiz-result-score">答對 20 / 20 題</h3>
                             
-                            <p class="font-bold text-sakura-text opacity-70 mb-6 text-sm" id="quiz-result-msg">太神啦！完美無瑕！<br>紀錄已更新至進度面板。</p>
+                            <p class="font-bold text-gray-500 mb-6 text-sm" id="quiz-result-msg">太神啦！完美無瑕！<br>紀錄已更新至進度面板。</p>
                             
                             <div class="flex flex-col gap-3">
                                 <button onclick="openWeaknessCamp()" class="w-full py-3 rounded-xl font-black text-red-600 bg-red-50 border-2 border-red-200 hover:bg-red-100 transition-all shadow-sm">
                                     🔥 前往錯題集中營
                                 </button>
-                                <button onclick="closeGlobalModal('quiz-result-modal')" class="w-full py-3 rounded-xl font-bold text-sakura-text bg-white border border-sakura-base hover:bg-sakura-light shadow-sm transition-all">
+                                <button onclick="closeGlobalModal('quiz-result-modal')" class="w-full py-3 rounded-xl font-bold text-gray-600 bg-white border border-gray-300 hover:bg-gray-50 shadow-sm transition-all">
                                     回到主畫面
                                 </button>
                             </div>
@@ -910,7 +854,7 @@
                     </div>
 
                     <!-- 錯題集中營 Modal -->
-                    <div id="weakness-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('weakness-modal')">
+                    <div id="weakness-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('weakness-modal')">
                         <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-red-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
                             <div class="bg-gradient-to-r from-red-500 to-rose-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <div class="flex items-center gap-4">
@@ -921,27 +865,27 @@
                                 </div>
                                 <button onclick="closeGlobalModal('weakness-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
-                            <div class="p-4 md:p-6 bg-sakura-bg overflow-y-auto flex-1 custom-scrollbar" id="weakness-content">
+                            <div class="p-4 md:p-6 bg-red-50/30 overflow-y-auto flex-1 custom-scrollbar" id="weakness-content">
                                 <!-- JS 動態注入錯題 -->
                             </div>
                         </div>
                     </div>
 
                     <!-- 成績總覽表 Modal -->
-                    <div id="score-board-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[110] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('score-board-modal')">
+                    <div id="score-board-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[110] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('score-board-modal')">
                         <div class="bg-white rounded-3xl shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-indigo-300 transform scale-95 transition-transform duration-200 flex flex-col h-[90vh]">
                             <div class="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2">📊 全員學習進度總排名</h2>
                                 <button onclick="closeGlobalModal('score-board-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
-                            <div class="p-6 flex-1 overflow-x-auto custom-scrollbar bg-sakura-bg relative">
+                            <div class="p-6 flex-1 overflow-x-auto custom-scrollbar bg-gray-50 relative">
                                 <table class="w-full text-center border-collapse bg-white shadow-sm rounded-xl overflow-hidden">
                                     <thead class="bg-indigo-100 text-indigo-800 border-b-2 border-indigo-200">
                                         <tr id="score-board-header">
                                             <!-- JS 注入 Header -->
                                         </tr>
                                     </thead>
-                                    <tbody id="score-board-body" class="divide-y divide-sakura-light">
+                                    <tbody id="score-board-body" class="divide-y divide-gray-100">
                                         <!-- JS 注入 Data -->
                                     </tbody>
                                 </table>
@@ -949,54 +893,54 @@
                         </div>
                     </div>
 
-                    <!-- 瀑布流總覽 Modal (寬度與排版優化) -->
-                    <div id="waterfall-modal" class="fixed inset-0 bg-sakura-text/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('waterfall-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-accent p-4 flex justify-between items-center text-white shrink-0">
+                    <!-- 瀑布流總覽 Modal -->
+                    <div id="waterfall-modal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('waterfall-modal')">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-pink-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                            <div class="bg-gradient-to-r from-pink-500 to-rose-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2" id="waterfall-title">👁️ 單字總覽</h2>
                                 <button onclick="closeGlobalModal('waterfall-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
-                            <div class="p-4 md:p-6 bg-sakura-bg overflow-y-auto flex-1 custom-scrollbar" id="waterfall-content">
+                            <div class="p-4 md:p-6 bg-pink-50/30 overflow-y-auto flex-1 custom-scrollbar" id="waterfall-content">
                                 <!-- 瀑布流卡片注入處 -->
                             </div>
                         </div>
                     </div>
 
                     <!-- 進度追蹤 Modal -->
-                    <div id="progress-modal" class="fixed inset-0 bg-sakura-text/70 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('progress-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-sakura-primary transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
-                            <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark p-4 flex justify-between items-center text-white shrink-0">
+                    <div id="progress-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-[70] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('progress-modal')">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full xl:max-w-[95vw] overflow-hidden border-4 border-rose-300 transform scale-95 transition-transform duration-200 flex flex-col relative h-[90vh]">
+                            <div class="bg-gradient-to-r from-rose-400 to-pink-500 p-4 flex justify-between items-center text-white shrink-0">
                                 <h2 class="text-xl font-bold flex items-center gap-2" id="progress-user-name">📈 闖關進度</h2>
                                 <button onclick="closeGlobalModal('progress-modal')" class="hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center font-bold text-xl">✕</button>
                             </div>
-                            <div class="p-6 bg-sakura-bg overflow-y-auto flex-1 custom-scrollbar" id="progress-content">
+                            <div class="p-6 bg-rose-50/30 overflow-y-auto flex-1 custom-scrollbar" id="progress-content">
                                 <!-- JS 動態注入 -->
                             </div>
                         </div>
                     </div>
 
                     <!-- 瀏覽公開資料卡 Modal -->
-                    <div id="view-profile-modal" class="fixed inset-0 bg-sakura-text/60 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('view-profile-modal')">
-                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-200 flex flex-col relative border-4 border-sakura-base">
+                    <div id="view-profile-modal" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm hidden items-center justify-center z-[80] p-4 transition-opacity duration-200 opacity-0" onclick="if(event.target === this) closeGlobalModal('view-profile-modal')">
+                        <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm overflow-hidden transform scale-95 transition-transform duration-200 flex flex-col relative border-4 border-pink-200">
                             <button onclick="closeGlobalModal('view-profile-modal')" class="absolute top-4 right-4 bg-black/20 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold z-10 hover:bg-black/40">✕</button>
-                            <div class="h-32 bg-gradient-to-r from-sakura-primary to-sakura-dark w-full relative"></div>
+                            <div class="h-32 bg-gradient-to-r from-pink-400 to-rose-400 w-full relative"></div>
                             <div class="px-6 pb-6 pt-0 relative flex flex-col items-center mt-[-3rem]">
-                                <img id="vp-photo" src="" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover bg-sakura-light mb-3" style="display:none;">
+                                <img id="vp-photo" src="" class="w-24 h-24 rounded-full border-4 border-white shadow-lg object-cover bg-pink-50 mb-3" style="display:none;">
                                 <div id="vp-avatar-fallback" class="w-24 h-24 rounded-full border-4 border-white shadow-lg flex items-center justify-center text-3xl font-black mb-3"></div>
                                 
-                                <h2 class="text-2xl font-black text-sakura-deep" id="vp-nickname"></h2>
-                                <p class="text-sm text-sakura-text opacity-70 font-bold mb-4" id="vp-name"></p>
+                                <h2 class="text-2xl font-black text-gray-800" id="vp-nickname"></h2>
+                                <p class="text-sm text-gray-400 font-bold mb-4" id="vp-name"></p>
                                 
                                 <div class="w-full space-y-3 text-sm">
-                                    <div class="bg-sakura-light rounded-xl p-3 border border-sakura-base text-center">
-                                        <div class="text-xs text-sakura-dark font-bold mb-1">🎯 目標</div>
-                                        <div class="font-black text-sakura-primary text-lg" id="vp-target">-</div>
+                                    <div class="bg-rose-50 rounded-xl p-3 border border-rose-100 text-center">
+                                        <div class="text-xs text-rose-400 font-bold mb-1">🎯 目標</div>
+                                        <div class="font-black text-rose-600 text-lg" id="vp-target">-</div>
                                     </div>
-                                    <div class="bg-white rounded-xl p-3 border border-sakura-base text-center">
-                                        <div class="text-xs text-sakura-text opacity-70 font-bold mb-1">💡 座右銘</div>
-                                        <div class="font-bold text-sakura-text italic" id="vp-motto">無</div>
+                                    <div class="bg-gray-50 rounded-xl p-3 border border-gray-100 text-center">
+                                        <div class="text-xs text-gray-400 font-bold mb-1">💡 座右銘</div>
+                                        <div class="font-bold text-gray-600 italic" id="vp-motto">無</div>
                                     </div>
-                                    <div class="text-center text-xs text-sakura-text opacity-70 font-bold mt-2" id="vp-birthday"></div>
+                                    <div class="text-center text-xs text-gray-400 font-bold mt-2" id="vp-birthday"></div>
                                 </div>
                             </div>
                         </div>
@@ -1047,7 +991,7 @@
                     const catWords = Object.values(allVocab).filter(v => v.category === cat);
                     const totalWords = catWords.length;
                     
-                    // 只顯示資料庫中已有建立資料的分類
+                    // 條件變更：只要資料庫有該分類的成語，無論是否學過都要顯示出來！
                     if (totalWords === 0) return; 
 
                     hasProgress = true;
@@ -1066,28 +1010,28 @@
                     }
 
                     html += `
-                        <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-sakura-base hover:shadow-md transition-shadow relative">
-                            <button onclick="openWaterfall('${cat}')" class="absolute top-4 right-4 bg-sakura-light text-sakura-dark hover:bg-sakura-base border border-sakura-base px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 transition-colors shadow-sm">
+                        <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-pink-100 hover:shadow-md transition-shadow relative">
+                            <button onclick="openWaterfall('${cat}')" class="absolute top-4 right-4 bg-pink-50 text-pink-600 hover:bg-pink-100 border border-pink-200 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 transition-colors shadow-sm">
                                 👁️ 總覽成語
                             </button>
                             
                             <div class="flex items-center mb-3">
-                                <h4 class="font-black text-xl text-sakura-accent">${cat}</h4>
+                                <h4 class="font-black text-xl text-rose-600">${cat}</h4>
                                 ${scoreBadge}
                             </div>
                             
                             <div class="flex justify-between items-end mb-1 pr-32">
-                                <span class="text-sm font-bold text-sakura-text">${learnedWords} / ${totalWords} 詞 (${percent}%)</span>
+                                <span class="text-sm font-bold text-gray-500">${learnedWords} / ${totalWords} 詞 (${percent}%)</span>
                             </div>
-                            <div class="w-full bg-sakura-light rounded-full h-4 overflow-hidden border border-sakura-base">
-                                <div class="bg-gradient-to-r from-sakura-primary to-sakura-dark h-4 rounded-full transition-all duration-500" style="width: ${percent}%"></div>
+                            <div class="w-full bg-pink-50 rounded-full h-4 overflow-hidden border border-pink-100">
+                                <div class="bg-gradient-to-r from-pink-400 to-rose-400 h-4 rounded-full transition-all duration-500" style="width: ${percent}%"></div>
                             </div>
                         </div>
                     `;
                 });
                 
                 if (!hasProgress) {
-                    html = `<div class="text-center text-sakura-text opacity-70 font-bold mt-10">資料庫目前尚未載入任何成語資料</div>`;
+                    html = `<div class="text-center text-gray-400 font-bold mt-10">資料庫目前尚未載入任何成語資料</div>`;
                 }
 
                 html += '</div>';
@@ -1102,7 +1046,7 @@
                 document.getElementById('waterfall-title').innerText = `👁️ ${category} 總覽 (${catWords.length} 詞)`;
                 
                 if(catWords.length === 0) {
-                    document.getElementById('waterfall-content').innerHTML = `<div class="text-center text-sakura-text opacity-70 font-bold mt-10">此分類尚無成語資料</div>`;
+                    document.getElementById('waterfall-content').innerHTML = `<div class="text-center text-gray-400 font-bold mt-10">此分類尚無成語資料</div>`;
                     openGlobalModal('waterfall-modal');
                     return;
                 }
@@ -1113,31 +1057,31 @@
                     const isFav = !!allFavorites[favId];
                     const safeWord = escapeQuotes(w.word);
                     
-                    let emotionColor = 'text-sakura-text bg-sakura-bg border-sakura-base';
-                    if (w.emotion === '褒義') emotionColor = 'text-sakura-primary bg-sakura-light border-sakura-base';
-                    if (w.emotion === '貶義') emotionColor = 'text-[#3E5C60] bg-[#E8F0F1] border-[#C4D5D7]'; // Slightly muted green/blue for contrast
-                    if (w.emotion === '中性') emotionColor = 'text-[#4A648C] bg-[#EBF0F8] border-[#C9D6EA]';
+                    let emotionColor = 'text-gray-500 bg-gray-100 border-gray-200';
+                    if (w.emotion === '褒義') emotionColor = 'text-rose-600 bg-rose-50 border-rose-200';
+                    if (w.emotion === '貶義') emotionColor = 'text-teal-700 bg-teal-50 border-teal-200';
+                    if (w.emotion === '中性') emotionColor = 'text-blue-600 bg-blue-50 border-blue-200';
 
                     html += `
-                        <div class="bg-white p-4 md:p-6 rounded-xl border border-sakura-base shadow-sm break-inside-avoid hover:shadow-md transition-shadow group relative">
+                        <div class="bg-white p-4 rounded-xl border border-pink-100 shadow-sm break-inside-avoid hover:shadow-md transition-shadow group relative">
                             <button onclick="toggleFavorite('${w.id}', event)" class="absolute top-3 right-3 text-lg hover:scale-125 transition-transform" title="收藏">
                                 ${isFav ? '❤️' : '🤍'}
                             </button>
-                            <div class="flex items-center gap-2 mb-3 pr-8 flex-wrap">
-                                <h4 class="font-black text-2xl md:text-3xl text-[#A64D5F] break-words tracking-widest leading-tight">${w.word}</h4>
+                            <div class="flex items-center gap-2 mb-2 pr-8 flex-wrap">
+                                <h4 class="font-black text-2xl md:text-3xl text-[#CC0000] break-words tracking-widest">${w.word}</h4>
                             </div>
-                            <div class="text-sm font-bold text-sakura-text opacity-70 mb-3 font-mono tracking-widest">${w.pinyin || ''}</div>
-                            <div class="flex items-center gap-2 mb-4">
+                            <div class="text-sm font-bold text-gray-500 mb-2 font-mono tracking-widest">${w.pinyin || ''}</div>
+                            <div class="flex items-center gap-2 mb-3">
                                 <span class="text-xs md:text-sm font-bold px-2 py-0.5 rounded shadow-sm border ${emotionColor}">${w.emotion || '無'}</span>
-                                <button onclick="playAudio('${safeWord}', event)" class="w-6 h-6 md:w-8 md:h-8 bg-sakura-light text-sakura-primary rounded-full flex items-center justify-center hover:bg-sakura-base transition-colors shadow-sm text-xs">🔊</button>
+                                <button onclick="playAudio('${safeWord}', event)" class="w-6 h-6 md:w-7 md:h-7 bg-gray-100 text-gray-600 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors shadow-sm text-xs">🔊</button>
                             </div>
-                            <div class="text-base md:text-lg font-bold text-sakura-deep mb-3 border-l-[3px] border-sakura-primary pl-3 leading-relaxed">${w.meaning}</div>
+                            <div class="text-base md:text-lg font-bold text-gray-700 mb-2 border-l-2 border-pink-300 pl-2 leading-relaxed">${w.meaning}</div>
                             ${w.sentence ? `
-                                <div class="bg-sakura-bg p-3 rounded-lg text-base md:text-lg border border-sakura-base mt-4">
-                                    <div class="text-sakura-text font-medium leading-relaxed">${w.sentence}</div>
+                                <div class="bg-pink-50/50 p-3 rounded-lg text-base md:text-lg border border-pink-100 mt-3">
+                                    <div class="text-gray-600 font-medium leading-relaxed">${w.sentence}</div>
                                 </div>
                             ` : ''}
-                            <div class="absolute bottom-2 right-3 text-[10px] text-sakura-text opacity-30 font-mono hidden group-hover:block">#${w.index}</div>
+                            <div class="absolute bottom-2 right-3 text-[10px] text-gray-300 font-mono hidden group-hover:block">#${w.index}</div>
                         </div>
                     `;
                 });
@@ -1268,13 +1212,13 @@
             
             if (isRegister && !name) {
                 nameInput.disabled = false;
-                nameInput.classList.remove('bg-sakura-light', 'text-sakura-text');
-                nameInput.classList.add('bg-white', 'text-sakura-deep');
+                nameInput.classList.remove('bg-gray-100', 'text-gray-500');
+                nameInput.classList.add('bg-white', 'text-gray-700');
                 nameInput.placeholder = "請輸入真實姓名作為登入帳號";
             } else {
                 nameInput.disabled = true;
-                nameInput.classList.remove('bg-white', 'text-sakura-deep');
-                nameInput.classList.add('bg-sakura-bg', 'text-sakura-text');
+                nameInput.classList.remove('bg-white', 'text-gray-700');
+                nameInput.classList.add('bg-gray-100', 'text-gray-500');
                 nameInput.placeholder = "";
             }
             
@@ -1439,12 +1383,12 @@
                 if(!container) return;
                 const examDaysLeft = getDaysLeft(EXAM_DATE);
                 let html = `
-                    <div class="bg-gradient-to-br from-sakura-primary to-sakura-dark rounded-2xl p-5 text-center shadow-lg text-white mb-4 transform hover:scale-[1.02] transition-transform border border-sakura-base shrink-0 z-10 relative">
-                        <h3 class="text-sm font-bold opacity-90 mb-1">會考大日子 (2027-05-22)</h3>
+                    <div class="bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl p-5 text-center shadow-lg text-white mb-4 transform hover:scale-[1.02] transition-transform border border-pink-300 shrink-0 z-10 relative">
+                        <h3 class="text-sm font-bold text-pink-100 mb-1">會考大日子 (2027-05-22)</h3>
                         <div class="text-5xl font-black drop-shadow-md mb-2">${examDaysLeft >= 0 ? examDaysLeft : 0} <span class="text-xl">天</span></div>
                         <div class="text-xs bg-black/20 rounded-full inline-block px-3 py-1 font-bold">🎯 決戰時刻</div>
                     </div>
-                    <h4 class="font-bold text-sakura-deep mb-2 flex items-center gap-2 shrink-0 z-10 relative">🗓️ 重要考試里程碑</h4>
+                    <h4 class="font-bold text-pink-700 mb-2 flex items-center gap-2 shrink-0 z-10 relative">🗓️ 重要考試里程碑</h4>
                     <div class="marquee-container flex-1 w-full relative z-0 pb-1">
                         <div class="marquee-content space-y-3 pt-2">
                 `;
@@ -1453,15 +1397,15 @@
                     const days = getDaysLeft(item.date);
                     if (days >= 0) {
                         html += `
-                            <div class="bg-white p-3 rounded-xl border border-sakura-base shadow-sm flex justify-between items-center relative overflow-hidden group">
-                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-sakura-primary"></div>
+                            <div class="bg-white p-3 rounded-xl border border-pink-100 shadow-sm flex justify-between items-center relative overflow-hidden group">
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-pink-400"></div>
                                 <div class="pl-2">
-                                    <div class="text-sm font-bold text-sakura-deep">${item.title}</div>
-                                    <div class="text-xs text-sakura-text opacity-70">${item.date}</div>
+                                    <div class="text-sm font-bold text-gray-700">${item.title}</div>
+                                    <div class="text-xs text-gray-400">${item.date}</div>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-xl font-black ${days <= 7 ? 'text-red-500' : 'text-sakura-primary'}">${days}</span>
-                                    <span class="text-xs text-sakura-text opacity-70">天</span>
+                                    <span class="text-xl font-black ${days <= 7 ? 'text-red-500' : 'text-pink-500'}">${days}</span>
+                                    <span class="text-xs text-gray-500">天</span>
                                 </div>
                             </div>
                         `;
@@ -1481,8 +1425,8 @@
                     const displayName = usersProfile[msg.user]?.nickname || msg.user;
                     return `
                         <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
-                            <span class="text-[10px] text-sakura-text opacity-70 mb-0.5 px-1">${displayName}</span>
-                            <div class="${isMe ? 'chat-bubble-me' : 'chat-bubble-other'} px-3 py-2 shadow-sm inline-block max-w-[90%] break-words">
+                            <span class="text-[10px] text-gray-400 mb-0.5 px-1">${displayName}</span>
+                            <div class="${isMe ? 'chat-bubble-me' : 'chat-bubble-other'} px-3 py-2 text-gray-700 shadow-sm inline-block max-w-[90%] break-words">
                                 ${msg.text}
                             </div>
                         </div>
@@ -1501,19 +1445,19 @@
                 const myFavWords = myFavIds.map(id => allVocab[id]).filter(Boolean);
                 
                 if(myFavWords.length === 0) {
-                    container.innerHTML = `<div class="text-center text-sakura-primary font-bold mt-10">尚無收藏的成語<br><span class="text-xs opacity-80">在學習時點擊愛心即可收藏 ❤️</span></div>`;
+                    container.innerHTML = `<div class="text-center text-rose-300 font-bold mt-10">尚無收藏的成語<br><span class="text-xs">在學習時點擊愛心即可收藏 ❤️</span></div>`;
                     return;
                 }
                 
                 container.innerHTML = myFavWords.map(w => `
-                    <div class="bg-white p-3 rounded-xl border border-sakura-base shadow-sm flex flex-col relative group">
+                    <div class="bg-white p-3 rounded-xl border border-rose-100 shadow-sm flex flex-col relative group">
                         <div class="flex justify-between items-start">
-                            <h4 class="font-black text-xl text-sakura-deep pr-6 tracking-widest leading-tight">${w.word}</h4>
-                            <button onclick="toggleFavorite('${w.id}', event)" class="absolute top-3 right-3 text-sakura-primary hover:scale-125 transition-transform" title="取消收藏">❤️</button>
+                            <h4 class="font-black text-xl text-gray-800 pr-6 tracking-widest">${w.word}</h4>
+                            <button onclick="toggleFavorite('${w.id}', event)" class="absolute top-3 right-3 text-rose-500 hover:scale-125 transition-transform" title="取消收藏">❤️</button>
                         </div>
-                        <div class="text-xs font-mono text-sakura-text opacity-60 mb-1 tracking-widest">${w.pinyin || ''}</div>
-                        <div class="text-sm text-sakura-dark font-bold mb-1">${w.meaning}</div>
-                        <button onclick="playAudio('${escapeQuotes(w.word)}', event)" class="absolute bottom-2 right-2 bg-sakura-light text-sakura-primary w-8 h-8 flex items-center justify-center rounded-full hover:bg-sakura-base opacity-50 group-hover:opacity-100 transition-opacity text-xs">🔊</button>
+                        <div class="text-xs font-mono text-gray-400 mb-1 tracking-widest">${w.pinyin || ''}</div>
+                        <div class="text-sm text-pink-600 font-bold mb-1">${w.meaning}</div>
+                        <button onclick="playAudio('${escapeQuotes(w.word)}', event)" class="absolute bottom-2 right-2 bg-pink-50 text-pink-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-pink-100 opacity-50 group-hover:opacity-100 transition-opacity text-xs">🔊</button>
                     </div>
                 `).join('');
             } catch(e) { console.error("renderFavorites error", e); }
@@ -1538,8 +1482,8 @@
                 if(!container || !headerContainer) return;
 
                 headerContainer.innerHTML = `
-                    <h2 class="text-xl md:text-2xl font-black text-sakura-dark tracking-wide">${currentYear} 年 ${currentMonth + 1} 月</h2>
-                    <select onchange="changeViewingUser(this.value)" class="text-xs md:text-sm font-bold text-sakura-deep bg-sakura-light pl-3 pr-7 py-1 md:py-1.5 rounded-full mt-1 border border-sakura-base focus:outline-none focus:ring-2 focus:ring-sakura-primary cursor-pointer shadow-sm w-auto max-w-full text-ellipsis overflow-hidden">
+                    <h2 class="text-xl md:text-2xl font-black text-pink-600 tracking-wide">${currentYear} 年 ${currentMonth + 1} 月</h2>
+                    <select onchange="changeViewingUser(this.value)" class="text-xs md:text-sm font-bold text-pink-700 bg-pink-50 pl-3 pr-7 py-1 md:py-1.5 rounded-full mt-1 border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer shadow-sm w-auto max-w-full text-ellipsis overflow-hidden">
                         <option value="ALL" ${viewingUser === 'ALL' ? 'selected' : ''}>🌍 全部進度</option>
                         ${globalUsers.map((u, idx) => {
                             const dispName = usersProfile[u]?.nickname || u;
@@ -1556,11 +1500,11 @@
                 let html = `<div class="grid grid-cols-7 gap-1 md:gap-2 mb-2 shrink-0">`;
                 ['一', '二', '三', '四', '五', '六', '日'].forEach((d, idx) => {
                     const isWeekend = idx >= 5;
-                    html += `<div class="text-center font-bold ${isWeekend ? 'text-sakura-primary bg-sakura-light' : 'text-sakura-deep bg-white'} py-1 md:py-2 text-sm md:text-base rounded-lg md:rounded-xl shadow-sm border border-sakura-base">${d}</div>`;
+                    html += `<div class="text-center font-bold ${isWeekend ? 'text-rose-500 bg-rose-50' : 'text-pink-700 bg-pink-50'} py-1 md:py-2 text-sm md:text-base rounded-lg md:rounded-xl shadow-sm border border-gray-100">${d}</div>`;
                 });
                 html += `</div><div class="grid grid-cols-7 gap-1 md:gap-2 flex-1 auto-rows-[100px] md:auto-rows-[120px] overflow-y-auto custom-scrollbar pb-4 pr-1 pl-1">`;
 
-                for(let i=0; i<startPad; i++) html += `<div class="bg-white/50 rounded-xl md:rounded-2xl border border-transparent"></div>`;
+                for(let i=0; i<startPad; i++) html += `<div class="bg-white/30 rounded-xl md:rounded-2xl border border-transparent"></div>`;
 
                 for(let d=1; d<=daysInMonth; d++) {
                     const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
@@ -1568,10 +1512,10 @@
                     const isImportant = importantDates.find(i => i.date === dateStr);
                     
                     const headerClass = isToday 
-                        ? 'bg-gradient-to-r from-sakura-primary to-sakura-dark text-white shadow-md' 
+                        ? 'bg-gradient-to-r from-pink-400 to-rose-400 text-white shadow-md' 
                         : isImportant 
                             ? 'bg-gradient-to-r from-orange-400 to-red-400 text-white shadow-md' 
-                            : 'bg-sakura-light text-sakura-deep';
+                            : 'bg-pink-50 text-pink-700';
 
                     let activeUsers = new Set();
                     Object.values(allActivities).forEach(act => {
@@ -1591,7 +1535,7 @@
                     `).join('') : '';
 
                     let cellHTML = `
-                        <div onclick="${clickAction}" class="bg-white border-2 border-sakura-base p-1 md:p-2 rounded-xl md:rounded-2xl shadow-sm flex flex-col transition-all cursor-pointer hover:border-sakura-primary hover:shadow-md hover:-translate-y-1 overflow-hidden group relative h-full">
+                        <div onclick="${clickAction}" class="bg-white border-2 border-pink-100 p-1 md:p-2 rounded-xl md:rounded-2xl shadow-sm flex flex-col transition-all cursor-pointer hover:border-pink-400 hover:shadow-md hover:-translate-y-1 overflow-hidden group relative h-full">
                             <div class="flex justify-between items-start shrink-0 mb-1 w-full">
                                 <span class="w-5 h-5 md:w-7 md:h-7 flex items-center justify-center rounded-full text-xs md:text-sm font-bold ${headerClass} shrink-0">${d}</span>
                                 ${isImportant ? `<span class="text-xs md:text-sm drop-shadow-sm group-hover:scale-125 transition-transform shrink-0" title="${isImportant.title}">🔥</span>` : ''}
@@ -1629,10 +1573,10 @@
                     if (lastIndex > 0) {
                         hasAnyProgress = true;
                         html += `
-                            <div class="bg-white rounded-3xl p-5 md:p-8 shadow-sm border-2 border-sakura-base">
-                                <h3 class="text-xl md:text-2xl font-black text-sakura-dark mb-5 border-b-2 border-sakura-base pb-3 flex items-center gap-2">
+                            <div class="bg-white rounded-3xl p-5 md:p-8 shadow-sm border-2 border-pink-100">
+                                <h3 class="text-xl md:text-2xl font-black text-pink-700 mb-5 border-b-2 border-pink-100 pb-3 flex items-center gap-2">
                                     📚 ${cat} 
-                                    <span class="text-xs font-bold text-sakura-text bg-sakura-light px-3 py-1 rounded-full ml-2">已學 ${lastIndex} 詞</span>
+                                    <span class="text-xs font-bold text-gray-500 bg-gray-100 px-3 py-1 rounded-full ml-2">已學 ${lastIndex} 詞</span>
                                 </h3>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                         `;
@@ -1648,20 +1592,20 @@
                             const status = getEbbinghausStatus(stageInfo.reviewCount, stageInfo.lastReviewDate);
                             
                             html += `
-                                <div onclick="openEbbinghausStage('${cat}', ${startIndex}, ${endIndex})" class="cursor-pointer border-2 ${status.needReview && status.text==='🔥 建議複習' ? 'border-red-300 hover:border-red-400 bg-red-50/50' : 'border-sakura-base hover:border-sakura-primary bg-white'} rounded-2xl p-5 flex flex-col gap-2 hover:shadow-lg transition-all group transform hover:-translate-y-1 relative overflow-hidden">
-                                    <div class="absolute -right-4 -top-4 text-5xl opacity-5 font-black italic">#${s+1}</div>
+                                <div onclick="openEbbinghausStage('${cat}', ${startIndex}, ${endIndex})" class="cursor-pointer border-2 ${status.needReview ? 'border-red-300 hover:border-red-400 bg-red-50/50' : 'border-fuchsia-200 hover:border-fuchsia-400 bg-white'} rounded-2xl p-5 flex flex-col gap-2 hover:shadow-lg transition-all group transform hover:-translate-y-1 relative overflow-hidden">
+                                    <div class="absolute -right-4 -top-4 text-5xl opacity-10 font-black italic">#${s+1}</div>
                                     <div class="flex justify-between items-start z-10">
-                                        <h4 class="font-black text-xl text-sakura-deep">關卡 ${s+1}</h4>
+                                        <h4 class="font-black text-xl text-gray-800">關卡 ${s+1}</h4>
                                         <span class="text-[10px] md:text-xs font-bold px-2 py-1 rounded-md border ${status.color} shadow-sm">${status.text}</span>
                                     </div>
-                                    <div class="text-xs font-bold text-sakura-text z-10 mb-2 opacity-80">範圍: ${startIndex + 1} - ${endIndex} 詞</div>
+                                    <div class="text-xs font-bold text-gray-500 z-10 mb-2">成語範圍: ${startIndex + 1} - ${endIndex} 詞</div>
                                     
                                     <div class="flex justify-between items-end mt-auto pt-3 text-sm border-t border-gray-200/50 z-10">
-                                        <div class="text-sakura-text font-bold opacity-80">
+                                        <div class="text-gray-500 font-bold">
                                             <div class="text-[10px] mb-0.5">🗓️ 上次複習</div>
-                                            <div class="text-sakura-deep">${stageInfo.lastReviewDate || '尚無紀錄'}</div>
+                                            <div class="text-gray-700">${stageInfo.lastReviewDate || '尚無紀錄'}</div>
                                         </div>
-                                        <div class="text-sakura-dark font-black bg-sakura-light px-3 py-1.5 rounded-lg border border-sakura-base">
+                                        <div class="text-fuchsia-600 font-black bg-fuchsia-100 px-3 py-1.5 rounded-lg border border-fuchsia-200">
                                             🔄 ${stageInfo.reviewCount} 次
                                         </div>
                                     </div>
@@ -1675,10 +1619,10 @@
                 
                 if (!hasAnyProgress) {
                     html = `
-                        <div class="flex flex-col items-center justify-center py-20 text-sakura-text">
-                            <div class="text-7xl mb-6 drop-shadow-md opacity-80">🌱</div>
-                            <h3 class="text-2xl md:text-3xl font-black text-sakura-primary drop-shadow-sm mb-3">尚未有學習紀錄</h3>
-                            <p class="text-sm md:text-md font-bold opacity-70 text-center">請先在日曆上點擊日期進入「成語特訓」進行學習，<br>有了紀錄後就可以在這裡進行艾賓浩斯智能複習喔！🚀</p>
+                        <div class="flex flex-col items-center justify-center py-20 text-gray-500">
+                            <div class="text-7xl mb-6 drop-shadow-md">🌱</div>
+                            <h3 class="text-2xl md:text-3xl font-black text-pink-500 drop-shadow-sm mb-3">尚未有學習紀錄</h3>
+                            <p class="text-sm md:text-md font-bold text-gray-400 text-center">請先在日曆上點擊日期進入「成語特訓」進行學習，<br>有了紀錄後就可以在這裡進行艾賓浩斯智能複習喔！🚀</p>
                         </div>
                     `;
                 }
@@ -1702,30 +1646,30 @@
                     const safeWord = escapeQuotes(w.word);
                     const safeSentence = escapeQuotes(w.sentence);
 
-                    let emotionColor = 'text-sakura-text bg-sakura-bg border-sakura-base';
-                    if (w.emotion === '褒義') emotionColor = 'text-sakura-primary bg-sakura-light border-sakura-base';
-                    if (w.emotion === '貶義') emotionColor = 'text-[#3E5C60] bg-[#E8F0F1] border-[#C4D5D7]'; 
-                    if (w.emotion === '中性') emotionColor = 'text-[#4A648C] bg-[#EBF0F8] border-[#C9D6EA]';
+                    let emotionColor = 'text-gray-500 bg-gray-100 border-gray-200';
+                    if (w.emotion === '褒義') emotionColor = 'text-rose-600 bg-rose-50 border-rose-200';
+                    if (w.emotion === '貶義') emotionColor = 'text-teal-700 bg-teal-50 border-teal-200';
+                    if (w.emotion === '中性') emotionColor = 'text-blue-600 bg-blue-50 border-blue-200';
                     
                     html += `
-                        <div class="bg-white p-5 rounded-2xl border-2 border-sakura-base shadow-sm flex items-start gap-3 md:gap-4 relative hover:shadow-md transition-shadow group">
+                        <div class="bg-white p-5 rounded-2xl border-2 border-fuchsia-100 shadow-sm flex items-start gap-3 md:gap-4 relative hover:shadow-md transition-shadow group">
                             <button onclick="toggleFavorite('${w.id}', event)" class="text-2xl md:text-3xl hover:scale-125 transition-transform shrink-0 pt-0.5" title="收藏">
                                 ${isFav ? '❤️' : '🤍'}
                             </button>
                             <div class="flex-1 min-w-0">
-                                <div class="text-xs font-mono text-sakura-text opacity-60 tracking-[0.2em] font-bold mb-0.5">${w.pinyin || ''}</div>
+                                <div class="text-xs font-mono text-fuchsia-400 tracking-[0.2em] font-bold mb-0.5">${w.pinyin || ''}</div>
                                 <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                                    <h4 class="font-black text-2xl md:text-4xl text-sakura-deep break-words tracking-widest leading-tight">${w.word}</h4>
-                                    <span class="text-[10px] md:text-xs font-bold text-sakura-text opacity-70 bg-sakura-light px-2 py-0.5 rounded border border-sakura-base ml-1">#${w.index}</span>
+                                    <h4 class="font-black text-2xl md:text-4xl text-gray-800 break-words tracking-widest">${w.word}</h4>
+                                    <span class="text-[10px] md:text-xs font-bold text-gray-400 bg-gray-50 px-2 py-0.5 rounded border border-gray-200 ml-1">#${w.index}</span>
                                     <span class="text-xs md:text-sm font-bold px-2 py-0.5 rounded shadow-sm border ${emotionColor} ml-2">${w.emotion || '無'}</span>
-                                    <button onclick="playAudio('${safeWord}', event)" class="w-8 h-8 md:w-10 md:h-10 bg-sakura-light text-sakura-primary rounded-full flex items-center justify-center hover:bg-sakura-base border border-sakura-base shrink-0 text-sm shadow-sm">🔊</button>
+                                    <button onclick="playAudio('${safeWord}', event)" class="w-8 h-8 md:w-10 md:h-10 bg-fuchsia-50 text-fuchsia-600 rounded-full flex items-center justify-center hover:bg-fuchsia-100 border border-fuchsia-200 shrink-0 text-sm shadow-sm">🔊</button>
                                 </div>
-                                <div class="text-lg md:text-xl font-bold text-sakura-dark mb-2 mt-3 border-l-4 border-sakura-primary pl-3 leading-relaxed">${w.meaning}</div>
+                                <div class="text-lg md:text-xl font-bold text-fuchsia-700 mb-2 mt-3 border-l-4 border-fuchsia-300 pl-3 leading-relaxed">${w.meaning}</div>
                                 ${w.sentence ? `
-                                    <div class="bg-sakura-bg p-3 md:p-4 rounded-xl text-base md:text-lg border border-sakura-base flex items-start gap-2.5 mt-3">
-                                        <button onclick="playAudio('${safeSentence}', event)" class="w-6 h-6 md:w-8 md:h-8 bg-white text-sakura-primary rounded-full flex items-center justify-center hover:bg-sakura-light transition-colors shadow-sm shrink-0 border border-sakura-base text-xs mt-0.5">🔊</button>
+                                    <div class="bg-fuchsia-50/50 p-3 md:p-4 rounded-xl text-base md:text-lg border border-fuchsia-100 flex items-start gap-2.5 mt-3">
+                                        <button onclick="playAudio('${safeSentence}', event)" class="w-6 h-6 md:w-8 md:h-8 bg-white text-fuchsia-400 rounded-full flex items-center justify-center hover:bg-fuchsia-100 transition-colors shadow-sm shrink-0 border border-fuchsia-200 text-xs mt-0.5">🔊</button>
                                         <div class="flex flex-col gap-1 w-full">
-                                            <div class="text-sakura-text font-medium leading-relaxed">${w.sentence}</div>
+                                            <div class="text-gray-700 font-medium leading-relaxed">${w.sentence}</div>
                                         </div>
                                     </div>
                                 ` : ''}
@@ -1800,10 +1744,10 @@
                                 const progressDocId = `${username}_${item}`;
                                 const learned = allProgress[progressDocId]?.lastIndex || 0;
                                 const total = Object.values(allVocab).filter(v => v.category === item).length;
-                                const badge = total > 0 ? `<span class="bg-sakura-light text-sakura-dark text-xs px-2 py-0.5 rounded ml-2 shadow-sm font-bold border border-sakura-base">進度 ${learned}/${total} 詞</span>` : '';
+                                const badge = total > 0 ? `<span class="bg-pink-100 text-pink-600 text-xs px-2 py-0.5 rounded ml-2 shadow-sm font-bold">進度 ${learned}/${total} 詞</span>` : '';
                                 
                                 return `
-                                    <button onclick="startLearning('${item}')" class="w-full text-left py-3 px-4 rounded-xl border-2 border-sakura-base text-sakura-text font-bold hover:bg-sakura-light hover:border-sakura-primary transition-all bg-white shadow-sm hover:-translate-y-0.5 flex justify-between items-center text-sm md:text-base mb-2">
+                                    <button onclick="startLearning('${item}')" class="w-full text-left py-3 px-4 rounded-xl border-2 border-pink-100 text-gray-700 font-bold hover:bg-pink-50 hover:border-pink-300 transition-all bg-white shadow-sm hover:-translate-y-0.5 flex justify-between items-center text-sm md:text-base mb-2">
                                         <span>${item}</span>
                                         ${badge}
                                     </button>
@@ -1811,8 +1755,8 @@
                             }).join('');
 
                             html += `
-                                <div class="mb-4 border-l-[3px] border-sakura-primary pl-3 ml-1 mt-2">
-                                    <h4 class="text-sakura-dark font-black text-sm mb-3 flex items-center gap-1">📂 ${node.title}</h4>
+                                <div class="mb-4 border-l-2 border-pink-300 pl-3 ml-1 mt-2">
+                                    <h4 class="text-pink-600 font-black text-sm mb-3 flex items-center gap-1">📂 ${node.title}</h4>
                                     <div class="pl-1">
                                         ${itemsHtml}
                                     </div>
@@ -1822,12 +1766,12 @@
                             // 帶有子層的節點
                             if (level === 1) {
                                 html += `
-                                    <div class="border-2 border-sakura-base rounded-2xl overflow-hidden bg-white shadow-sm mb-4">
-                                        <button onclick="toggleAccordion('${id}')" class="w-full text-left py-4 px-5 bg-sakura-light hover:bg-sakura-base transition-colors font-black text-sakura-deep text-lg flex justify-between items-center outline-none">
+                                    <div class="border-2 border-pink-200 rounded-2xl overflow-hidden bg-white shadow-sm mb-4">
+                                        <button onclick="toggleAccordion('${id}')" class="w-full text-left py-4 px-5 bg-pink-50 hover:bg-pink-100 transition-colors font-black text-pink-700 text-lg flex justify-between items-center outline-none">
                                             <span>${node.title}</span>
-                                            <span id="accordion-icon-${id}" class="text-xl opacity-70">➕</span>
+                                            <span id="accordion-icon-${id}" class="text-xl">➕</span>
                                         </button>
-                                        <div id="accordion-content-${id}" class="accordion-content bg-sakura-bg">
+                                        <div id="accordion-content-${id}" class="accordion-content bg-rose-50/30">
                                             <div class="p-3 md:p-4">
                                                 ${buildHierarchyHtml(node.children, level + 1, id)}
                                             </div>
@@ -1837,9 +1781,9 @@
                             } else {
                                 html += `
                                     <div class="mb-3">
-                                        <button onclick="toggleAccordion('${id}')" class="w-full text-left py-3 px-4 bg-white hover:bg-sakura-light transition-colors font-bold text-sakura-text text-md rounded-xl flex justify-between items-center outline-none border-2 border-sakura-base shadow-sm">
+                                        <button onclick="toggleAccordion('${id}')" class="w-full text-left py-3 px-4 bg-white hover:bg-pink-50 transition-colors font-bold text-gray-800 text-md rounded-xl flex justify-between items-center outline-none border-2 border-pink-100 shadow-sm">
                                             <span>📁 ${node.title}</span>
-                                            <span id="accordion-icon-${id}" class="text-sm opacity-70">➕</span>
+                                            <span id="accordion-icon-${id}" class="text-sm">➕</span>
                                         </button>
                                         <div id="accordion-content-${id}" class="accordion-content pl-2 ml-2">
                                             <div class="pt-3 pb-1">
@@ -1872,12 +1816,12 @@
                     actionContainer.classList.remove('hidden');
                     const lastLearnedCategory = modalState.category || validQuizCategories[validQuizCategories.length - 1] || validQuizCategories[0];
                     actionContainer.innerHTML = `
-                        <p class="text-xs text-center font-bold text-sakura-text opacity-70 mb-1">您已有學習紀錄，可進行隨堂測驗 👇</p>
+                        <p class="text-xs text-center font-bold text-gray-400 mb-1">您已有學習紀錄，可進行隨堂測驗 👇</p>
                         <div class="flex flex-col md:flex-row gap-2 w-full">
-                            <select id="action-level-select" class="w-full md:w-1/2 px-3 py-2 rounded-xl border-2 border-sakura-base font-bold text-sakura-dark focus:outline-none bg-white">
+                            <select id="action-level-select" class="w-full md:w-1/2 px-3 py-2 rounded-xl border-2 border-gray-200 font-bold text-pink-600 focus:outline-none bg-white">
                                 ${validQuizCategories.map(cat => `<option value="${cat}" ${cat === lastLearnedCategory ? 'selected' : ''}>${cat}</option>`).join('')}
                             </select>
-                            <button onclick="startQuiz('category', document.getElementById('action-level-select').value)" class="w-full md:w-1/2 py-2.5 rounded-xl font-black text-white bg-sakura-primary hover:bg-sakura-dark shadow-sm transition-all text-sm md:text-base">
+                            <button onclick="startQuiz('category', document.getElementById('action-level-select').value)" class="w-full md:w-1/2 py-2.5 rounded-xl font-black text-white bg-rose-500 hover:bg-rose-600 shadow-sm transition-all text-sm md:text-base">
                                 📝 模擬隨機測驗
                             </button>
                         </div>
@@ -1932,43 +1876,43 @@
                     const safeWord = escapeQuotes(wordObj.word);
                     const safeSentence = escapeQuotes(wordObj.sentence);
                     
-                    let emotionColor = 'text-sakura-text bg-sakura-bg border-sakura-base';
-                    if (wordObj.emotion === '褒義') emotionColor = 'text-sakura-primary bg-sakura-light border-sakura-base';
-                    if (wordObj.emotion === '貶義') emotionColor = 'text-[#3E5C60] bg-[#E8F0F1] border-[#C4D5D7]';
-                    if (wordObj.emotion === '中性') emotionColor = 'text-[#4A648C] bg-[#EBF0F8] border-[#C9D6EA]';
+                    let emotionColor = 'text-gray-500 bg-gray-100 border-gray-200';
+                    if (wordObj.emotion === '褒義') emotionColor = 'text-rose-600 bg-rose-50 border-rose-200';
+                    if (wordObj.emotion === '貶義') emotionColor = 'text-teal-700 bg-teal-50 border-teal-200';
+                    if (wordObj.emotion === '中性') emotionColor = 'text-blue-600 bg-blue-50 border-blue-200';
                     
                     html += `
-                        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border-2 border-sakura-base relative hover:shadow-lg transition-all group">
-                            <div class="absolute top-4 left-5 text-sm font-bold text-sakura-text opacity-70 bg-sakura-bg px-3 py-1 rounded-md border border-sakura-base"># ${wordObj.index}</div>
+                        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border-2 border-pink-200 relative hover:shadow-lg transition-all group">
+                            <div class="absolute top-4 left-5 text-sm font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-md border border-gray-100"># ${wordObj.index}</div>
                             <button onclick="toggleFavorite('${wordObj.id}', event)" class="absolute top-4 right-5 text-3xl hover:scale-125 transition-transform" title="加入我的最愛">
                                 ${isFav ? '❤️' : '🤍'}
                             </button>
                             
-                            <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6 mt-10 mb-5">
+                            <div class="flex flex-col md:flex-row md:items-start gap-4 md:gap-6 mt-10 mb-4">
                                 <div class="flex flex-col items-start gap-1">
-                                    <div class="text-sm font-mono text-sakura-text opacity-60 tracking-[0.3em] font-bold ml-1">${wordObj.pinyin || ''}</div>
+                                    <div class="text-sm font-mono text-pink-400 tracking-[0.3em] font-bold ml-1">${wordObj.pinyin || ''}</div>
                                     <div class="flex items-center gap-3">
-                                        <h3 class="text-4xl md:text-5xl font-black text-sakura-deep tracking-[0.2em] drop-shadow-sm">${wordObj.word}</h3>
+                                        <h3 class="text-4xl md:text-5xl font-black text-gray-800 tracking-widest drop-shadow-sm">${wordObj.word}</h3>
                                     </div>
-                                    <div class="flex items-center gap-2 mt-3">
+                                    <div class="flex items-center gap-2 mt-2">
                                         <span class="text-sm md:text-base font-bold px-3 py-1 rounded shadow-sm border ${emotionColor}">${wordObj.emotion || '無'}</span>
-                                        <button onclick="playAudio('${safeWord}', event)" class="w-8 h-8 md:w-10 md:h-10 bg-sakura-light text-sakura-primary rounded-full flex items-center justify-center hover:bg-sakura-base transition-colors shadow-sm shrink-0 border border-sakura-base text-sm">
+                                        <button onclick="playAudio('${safeWord}', event)" class="w-8 h-8 md:w-10 md:h-10 bg-pink-50 text-pink-600 rounded-full flex items-center justify-center hover:bg-pink-100 transition-colors shadow-sm shrink-0 border border-pink-200 text-sm">
                                             🔊
                                         </button>
                                     </div>
                                 </div>
-                                <div class="text-sakura-dark font-bold ml-1 md:ml-4 text-lg md:text-xl leading-relaxed mt-2 border-l-4 border-sakura-primary pl-4 py-1">
+                                <div class="text-gray-700 font-bold ml-1 md:ml-4 text-lg md:text-xl leading-relaxed mt-2 border-l-4 border-pink-300 pl-4 py-1">
                                     ${wordObj.meaning}
                                 </div>
                             </div>
                             
                             ${wordObj.sentence ? `
-                                <div class="bg-sakura-bg rounded-2xl p-4 md:p-5 flex items-start gap-4 border border-sakura-base mt-6">
-                                    <button onclick="playAudio('${safeSentence}', event)" class="w-8 h-8 bg-white text-sakura-primary rounded-full flex items-center justify-center hover:bg-sakura-light transition-colors shadow-sm shrink-0 border border-sakura-base mt-1 text-sm">
+                                <div class="bg-rose-50/70 rounded-2xl p-4 md:p-5 flex items-start gap-4 border border-rose-100 mt-6">
+                                    <button onclick="playAudio('${safeSentence}', event)" class="w-8 h-8 bg-white text-rose-500 rounded-full flex items-center justify-center hover:bg-rose-100 transition-colors shadow-sm shrink-0 border border-rose-200 mt-1 text-sm">
                                         🔊
                                     </button>
                                     <div class="flex flex-col gap-2 w-full">
-                                        <div class="text-sakura-text font-bold text-lg md:text-xl leading-relaxed tracking-wide">${wordObj.sentence}</div>
+                                        <div class="text-gray-800 font-bold text-lg md:text-xl leading-relaxed tracking-wide">${wordObj.sentence}</div>
                                     </div>
                                 </div>
                             ` : ''}
@@ -1990,12 +1934,12 @@
                 
                 if(currentPageIndex >= totalPages - 1) {
                     btnNext.innerText = '完成學習，進入測驗 ⚔️';
-                    btnNext.classList.replace('bg-sakura-primary', 'bg-sakura-accent');
-                    btnNext.classList.replace('hover:bg-sakura-dark', 'hover:bg-sakura-deep');
+                    btnNext.classList.replace('bg-pink-500', 'bg-orange-500');
+                    btnNext.classList.replace('hover:bg-pink-600', 'hover:bg-orange-600');
                 } else {
                     btnNext.innerText = '下一頁 ▶';
-                    btnNext.classList.replace('bg-sakura-accent', 'bg-sakura-primary');
-                    btnNext.classList.replace('hover:bg-sakura-deep', 'hover:bg-sakura-dark');
+                    btnNext.classList.replace('bg-orange-500', 'bg-pink-500');
+                    btnNext.classList.replace('hover:bg-orange-600', 'hover:bg-pink-600');
                 }
                 
                 document.getElementById('learning-content').scrollTop = 0;
@@ -2068,11 +2012,11 @@
                 const correctWordStr = wordObj.word;
                 const safeCorrectWord = escapeQuotes(correctWordStr);
 
-                // 挑選不同主分類的干擾選項
+                // 改良版：尋找不同主分類的干擾選項
                 const currentTier1 = getTier1OfCategory(wordObj.category);
                 let validDistractors = Object.values(allVocab).filter(v => v.word !== correctWordStr && getTier1OfCategory(v.category) !== currentTier1);
                 
-                // 保底機制：若不同大類的干擾項不足，則至少確保不是完全同一個小分類
+                // 為了避免極端情況下找不滿三個干擾項，做一層保底機制
                 if (validDistractors.length < 3) {
                     validDistractors = Object.values(allVocab).filter(v => v.word !== correctWordStr && v.category !== wordObj.category);
                 }
@@ -2084,27 +2028,26 @@
                 let questionHtml = '';
                 if (wordObj.sentence) {
                     const regex = new RegExp(`\\b${correctWordStr}\\b`, 'gi');
-                    // 實戰測驗挖空優化: 使用固定的下底線模擬考卷填空
-                    const blankedSentence = wordObj.sentence.replace(regex, '<span class="inline-block w-28 border-b-[3px] border-sakura-dark mx-2 align-baseline"></span>');
+                    const blankedSentence = wordObj.sentence.replace(regex, '________');
                     
                     questionHtml = `
-                        <div class="text-sm md:text-base font-bold text-sakura-primary mb-3">請選出適合填入空格的成語：</div>
-                        <div id="quiz-sentence-display" class="text-2xl md:text-4xl font-black text-sakura-deep leading-relaxed mb-6 px-4 tracking-wide break-words">${blankedSentence}</div>
-                        <div class="text-sakura-text font-bold bg-white inline-block px-5 py-2.5 rounded-full border border-sakura-base shadow-sm text-lg md:text-xl">💡 提示：${wordObj.meaning}</div>
+                        <div class="text-sm md:text-base font-bold text-rose-500 mb-3">請選出適合填入空格的成語：</div>
+                        <div id="quiz-sentence-display" class="text-2xl md:text-4xl font-black text-gray-800 leading-relaxed mb-6 px-4 tracking-wide break-words">${blankedSentence}</div>
+                        <div class="text-gray-500 font-bold bg-white inline-block px-5 py-2.5 rounded-full border border-rose-100 shadow-sm text-lg md:text-xl">💡 提示：${wordObj.meaning}</div>
                         
-                        <div id="quiz-explanation" class="hidden mt-8 bg-sakura-light p-6 md:p-8 rounded-3xl border border-sakura-base text-left mx-auto max-w-3xl w-full shadow-inner flex flex-col items-start gap-3">
-                            <button onclick="playAudio('${escapeQuotes(wordObj.sentence)}', event)" class="bg-white text-sakura-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-sakura-base transition-colors shadow-sm shrink-0 border border-sakura-base text-lg">🔊</button>
-                            <div class="text-xl md:text-3xl font-black text-sakura-dark leading-relaxed tracking-wide">${wordObj.sentence}</div>
+                        <div id="quiz-explanation" class="hidden mt-8 bg-pink-50 p-6 md:p-8 rounded-3xl border border-pink-200 text-left mx-auto max-w-3xl w-full shadow-inner flex flex-col items-start gap-3">
+                            <button onclick="playAudio('${escapeQuotes(wordObj.sentence)}', event)" class="bg-white text-rose-500 w-10 h-10 rounded-full flex items-center justify-center hover:bg-rose-100 transition-colors shadow-sm shrink-0 border border-rose-200 text-lg">🔊</button>
+                            <div class="text-xl md:text-3xl font-black text-rose-600 leading-relaxed tracking-wide">${wordObj.sentence}</div>
                         </div>
                     `;
                 } else {
                     questionHtml = `
-                        <div class="text-sm md:text-base font-bold text-sakura-primary mb-3">請選出符合以下釋義的成語：</div>
-                        <div class="text-3xl md:text-5xl font-black text-sakura-deep leading-relaxed mb-6 px-4">${wordObj.meaning}</div>
+                        <div class="text-sm md:text-base font-bold text-rose-500 mb-3">請選出符合以下釋義的成語：</div>
+                        <div class="text-3xl md:text-5xl font-black text-gray-800 leading-relaxed mb-6 px-4">${wordObj.meaning}</div>
                         
-                        <div id="quiz-explanation" class="hidden mt-8 bg-sakura-light p-6 md:p-8 rounded-3xl border border-sakura-base w-full shadow-inner flex items-center justify-center gap-4">
-                            <button onclick="playAudio('${escapeQuotes(wordObj.word)}', event)" class="bg-white text-sakura-primary w-10 h-10 rounded-full flex items-center justify-center hover:bg-sakura-base transition-colors shadow-sm shrink-0 border border-sakura-base text-lg">🔊</button>
-                            <div class="text-3xl md:text-5xl font-black text-sakura-dark tracking-widest">${wordObj.word}</div>
+                        <div id="quiz-explanation" class="hidden mt-8 bg-pink-50 p-6 md:p-8 rounded-3xl border border-pink-200 w-full shadow-inner flex items-center justify-center gap-4">
+                            <button onclick="playAudio('${escapeQuotes(wordObj.word)}', event)" class="bg-white text-rose-500 w-10 h-10 rounded-full flex items-center justify-center hover:bg-rose-100 transition-colors shadow-sm shrink-0 border border-rose-200 text-lg">🔊</button>
+                            <div class="text-3xl md:text-5xl font-black text-rose-600 tracking-widest">${wordObj.word}</div>
                         </div>
                     `;
                 }
@@ -2112,7 +2055,7 @@
                 const optionsHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-10 w-full max-w-3xl mx-auto">
                         ${options.map(opt => `
-                            <button onclick="checkQuizAnswer(this, '${escapeQuotes(opt.word)}', '${safeCorrectWord}')" data-word="${escapeQuotes(opt.word)}" class="quiz-option-btn py-5 md:py-6 px-6 rounded-2xl bg-white border-2 border-sakura-base text-sakura-deep font-black text-2xl md:text-3xl tracking-widest shadow-sm hover:bg-sakura-light hover:border-sakura-primary hover:scale-[1.02] transition-all">
+                            <button onclick="checkQuizAnswer(this, '${escapeQuotes(opt.word)}', '${safeCorrectWord}')" data-word="${escapeQuotes(opt.word)}" class="quiz-option-btn py-5 md:py-6 px-6 rounded-2xl bg-white border-2 border-rose-200 text-gray-700 font-black text-2xl md:text-3xl tracking-widest shadow-sm hover:bg-rose-50 hover:border-rose-400 hover:scale-[1.02] transition-all">
                                 ${opt.word}
                             </button>
                         `).join('')}
@@ -2121,7 +2064,7 @@
 
                 const nextBtnHtml = `
                     <div id="quiz-next-btn-container" class="hidden mt-10">
-                        <button onclick="nextQuizQuestion()" class="px-10 md:px-16 py-4 md:py-5 bg-sakura-primary text-white font-black rounded-xl md:rounded-2xl hover:bg-sakura-dark shadow-md text-xl md:text-2xl animate-bounce">下一題 ▶</button>
+                        <button onclick="nextQuizQuestion()" class="px-10 md:px-16 py-4 md:py-5 bg-rose-500 text-white font-black rounded-xl md:rounded-2xl hover:bg-rose-600 shadow-md text-xl md:text-2xl animate-bounce">下一題 ▶</button>
                     </div>
                 `;
 
@@ -2134,7 +2077,7 @@
                 const btns = document.querySelectorAll('.quiz-option-btn');
                 btns.forEach(b => {
                     b.disabled = true;
-                    b.classList.remove('hover:bg-sakura-light', 'hover:border-sakura-primary', 'hover:scale-[1.02]');
+                    b.classList.remove('hover:bg-rose-50', 'hover:border-rose-400', 'hover:scale-[1.02]');
                 });
 
                 const isCorrect = (selectedWord === correctWord);
@@ -2142,20 +2085,20 @@
 
                 if (isCorrect) {
                     btn.classList.replace('bg-white', 'bg-green-400');
-                    btn.classList.replace('border-sakura-base', 'border-green-500');
-                    btn.classList.replace('text-sakura-deep', 'text-white');
+                    btn.classList.replace('border-rose-200', 'border-green-500');
+                    btn.classList.replace('text-gray-700', 'text-white');
                     quizState.correct++;
                 } else {
                     btn.classList.replace('bg-white', 'bg-red-500');
-                    btn.classList.replace('border-sakura-base', 'border-red-600');
-                    btn.classList.replace('text-sakura-deep', 'text-white');
+                    btn.classList.replace('border-rose-200', 'border-red-600');
+                    btn.classList.replace('text-gray-700', 'text-white');
                     btn.classList.add('shake');
                     
                     const correctBtn = Array.from(btns).find(b => b.dataset.word === correctWord);
                     if (correctBtn) {
                         correctBtn.classList.replace('bg-white', 'bg-green-400');
-                        correctBtn.classList.replace('border-sakura-base', 'border-green-500');
-                        correctBtn.classList.replace('text-sakura-deep', 'text-white');
+                        correctBtn.classList.replace('border-rose-200', 'border-green-500');
+                        correctBtn.classList.replace('text-gray-700', 'text-white');
                     }
 
                     if (!quizState.wrongWords.find(w => w.id === currentObj.id)) {
@@ -2256,7 +2199,7 @@
                             bestScore: score,
                             updatedAt: new Date().toISOString()
                         }, { merge: true });
-                        msg += '<br><span class="text-sakura-primary font-bold mt-2 inline-block">🚀 最高紀錄已更新！</span>';
+                        msg += '<br><span class="text-rose-500 font-bold mt-2 inline-block">🚀 最高紀錄已更新！</span>';
                     } catch(e) {}
                 }
             }
@@ -2279,10 +2222,10 @@
                 
                 if(myWeaknesses.length === 0) {
                     container.innerHTML = `
-                        <div class="flex flex-col items-center justify-center py-16 text-sakura-text">
-                            <div class="text-6xl mb-6 drop-shadow-md opacity-80">🎉</div>
-                            <h3 class="text-2xl font-black text-sakura-primary drop-shadow-sm">太棒了！目前沒有錯題！</h3>
-                            <p class="text-md mt-2 font-bold opacity-70">繼續保持這個氣勢，多做測驗吧 🚀</p>
+                        <div class="flex flex-col items-center justify-center py-16 text-gray-500">
+                            <div class="text-6xl mb-6 drop-shadow-md">🎉</div>
+                            <h3 class="text-2xl font-black text-rose-500 drop-shadow-sm">太棒了！目前沒有錯題！</h3>
+                            <p class="text-md mt-2 font-bold text-gray-400">繼續保持這個氣勢，多做測驗吧 🚀</p>
                         </div>
                     `;
                 } else {
@@ -2298,7 +2241,7 @@
                         if (weakWords.length > 0) {
                             html += `
                                 <div>
-                                    <h3 class="text-xl font-black text-red-600 mb-4 border-b-2 border-red-200 pb-2 pl-2 border-l-4 border-l-red-500">${cat} <span class="text-sm font-bold text-sakura-text opacity-70 ml-2">共 ${weakWords.length} 題</span></h3>
+                                    <h3 class="text-xl font-black text-red-600 mb-4 border-b-2 border-red-200 pb-2 pl-2 border-l-4 border-l-red-500">${cat} <span class="text-sm font-bold text-gray-400 ml-2">共 ${weakWords.length} 題</span></h3>
                                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             `;
                             
@@ -2313,7 +2256,7 @@
                                             <button onclick="playAudio('${safeWord}', event)" class="w-8 h-8 bg-white text-red-500 rounded-full flex items-center justify-center hover:bg-red-100 transition-colors shadow-sm shrink-0 border border-red-200 text-xs">
                                                 🔊
                                             </button>
-                                            <h4 class="font-black text-sakura-deep text-2xl md:text-3xl tracking-widest leading-tight">${w.word}</h4>
+                                            <h4 class="font-black text-gray-800 text-2xl md:text-3xl tracking-widest leading-tight">${w.word}</h4>
                                         </div>
                                         
                                         <div class="text-red-700 font-bold mb-3">
@@ -2323,7 +2266,7 @@
                                         ${w.sentence ? `
                                             <div class="bg-white p-3 rounded-xl border border-red-100 mb-2 text-sm flex gap-2 items-start">
                                                 <button onclick="playAudio('${safeSentence}', event)" class="w-6 h-6 bg-red-50 text-red-400 rounded-full flex items-center justify-center hover:bg-red-100 transition-colors shrink-0 text-[10px] mt-0.5">🔊</button>
-                                                <div class="text-sakura-text font-medium leading-relaxed">${w.sentence}</div>
+                                                <div class="text-gray-700 font-medium leading-relaxed">${w.sentence}</div>
                                             </div>
                                         ` : ''}
                                     </div>
@@ -2348,6 +2291,8 @@
                 const tbody = document.getElementById('score-board-body');
                 if(!header || !tbody) return;
                 
+                // 為了避免表格無止盡橫向延長，只列出「資料庫有資料的分類」或是改為總分排行
+                // 這裡改為統計各使用者的「總完成詞數」來做排行
                 let headerHtml = `
                     <th class="p-4 md:p-5 bg-indigo-100 sticky left-0 z-10 w-16 md:w-20 border-r border-indigo-200">名次</th>
                     <th class="p-4 md:p-5 bg-indigo-100 sticky left-16 md:left-20 z-10 border-r border-indigo-200 text-left pl-6">學習者</th>
@@ -2373,7 +2318,7 @@
                 let bodyHtml = '';
                 userStats.forEach((stat, index) => {
                     const rank = index + 1;
-                    let rankBadge = `<span class="text-sakura-text opacity-70 font-bold text-lg">${rank}</span>`;
+                    let rankBadge = `<span class="text-gray-500 font-bold text-lg">${rank}</span>`;
                     if(rank === 1) rankBadge = `<span class="text-3xl" title="第一名">🥇</span>`;
                     else if(rank === 2) rankBadge = `<span class="text-3xl" title="第二名">🥈</span>`;
                     else if(rank === 3) rankBadge = `<span class="text-3xl" title="第三名">🥉</span>`;
@@ -2384,7 +2329,7 @@
 
                     bodyHtml += `<tr class="${rowClass} transition-colors">`;
                     bodyHtml += `<td class="p-4 md:p-5 border-r border-gray-100 ${stickyBg} sticky left-0 z-10">${rankBadge}</td>`;
-                    bodyHtml += `<td class="p-4 md:p-5 font-black text-sakura-deep border-r border-gray-100 ${stickyBg} sticky left-16 md:left-20 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-left pl-6">
+                    bodyHtml += `<td class="p-4 md:p-5 font-black text-gray-800 border-r border-gray-100 ${stickyBg} sticky left-16 md:left-20 z-10 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] text-left pl-6">
                                     <div class="flex items-center gap-3">
                                         <div class="${getUserColor(stat.id)} w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm shadow-sm shrink-0 border-2 border-white">${getAvatarChar(stat.id)}</div>
                                         <span class="text-lg md:text-xl truncate max-w-[120px] md:max-w-none" title="${stat.dispName}">${stat.dispName}</span>
