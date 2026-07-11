@@ -2083,8 +2083,7 @@
 
                 let questionHtml = '';
                 if (wordObj.sentence) {
-                    // 修正：移除 \b，因為 \b (單字邊界) 對中文字元無效，改為直接全局匹配該成語字串
-                    const regex = new RegExp(correctWordStr, 'g');
+                    const regex = new RegExp(`\\b${correctWordStr}\\b`, 'gi');
                     // 實戰測驗挖空優化: 使用固定的下底線模擬考卷填空
                     const blankedSentence = wordObj.sentence.replace(regex, '<span class="inline-block w-28 border-b-[3px] border-sakura-dark mx-2 align-baseline"></span>');
                     
